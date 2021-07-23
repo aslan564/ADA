@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+
+    <ScrollView
+        android:id="@+id/scroll_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        tools:context=".ui.fragment.childInfo.ChildInfoFragment"
+        tools:ignore="ScrollViewCount,UselessParent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="35dp">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/normal_padding"
+                android:gravity="center"
+                android:text="@string/please_enter_child_info"
+                android:textAppearance="@style/TextTitle" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/normal_padding"
+                android:text="@string/name_surname"
+                android:textAppearance="@style/SecondTitle" />
+
+            <EditText
+                android:id="@+id/edit_text_name_surname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_8dp"
+                android:autofillHints=""
+                android:background="@drawable/bg_edit_text"
+                android:hint="@string/name_surname"
+                android:inputType="textPersonName"
+                tools:ignore="LabelFor" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/normal_padding"
+                android:text="@string/waiting_birthday"
+                android:textAppearance="@style/SecondTitle" />
+
+            <TextView
+                android:id="@+id/text_view_waiting_brthday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_8dp"
+                android:autofillHints=""
+                android:textSize="18sp"
+                android:background="@drawable/bg_edit_text"
+                android:hint="@string/waiting_birthday"
+                android:inputType="date"
+                tools:ignore="LabelFor,RtlHardcoded,TextViewEdits"
+                app:drawableRightCompat="@drawable/ic_baseline_date_range_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/normal_padding"
+                android:text="@string/real_birthday"
+                android:textAppearance="@style/SecondTitle" />
+
+            <TextView
+                android:id="@+id/text_view_real_birthday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_8dp"
+                android:autofillHints=""
+                android:background="@drawable/bg_edit_text"
+                android:hint="@string/real_birthday"
+                tools:ignore="LabelFor,RtlHardcoded"
+                app:drawableRightCompat="@drawable/ic_baseline_date_range_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/normal_padding"
+                android:text="@string/birthday_weight"
+                android:textAppearance="@style/SecondTitle" />
+
+            <EditText
+                android:id="@+id/edit_text_birthday_weight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_8dp"
+                android:autofillHints=""
+                android:background="@drawable/bg_edit_text"
+                android:hint="@string/weight_example"
+                android:inputType="number"
+                tools:ignore="LabelFor" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/normal_padding"
+                android:text="@string/gender"
+                android:textAppearance="@style/SecondTitle" />
+
+            <RadioGroup
+                android:id="@+id/radio_group_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_8dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_button_man"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/man" />
+
+                <RadioButton
+                    android:id="@+id/radio_button_woman"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/woman" />
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/normal_padding"
+                android:text="@string/referring_doctor_name"
+                android:textAppearance="@style/SecondTitle" />
+
+            <EditText
+                android:id="@+id/edit_text_referring_doctor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_8dp"
+                android:autofillHints=""
+                android:background="@drawable/bg_edit_text"
+                android:hint="@string/referring_doctor_name"
+                android:inputType="textPersonName"
+                tools:ignore="LabelFor" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/normal_padding"
+                android:text="@string/email_address"
+                android:textAppearance="@style/SecondTitle" />
+
+            <EditText
+                android:id="@+id/edit_text_email_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_8dp"
+                android:autofillHints=""
+                android:background="@drawable/bg_edit_text"
+                android:hint="@string/email_address"
+                android:inputType="textEmailAddress"
+                tools:ignore="LabelFor" />
+
+            <CheckBox
+                android:id="@+id/checkbox_privacy_policy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/normal_padding"
+                android:text="@string/privacy_policy" />
+
+            <CheckBox
+                android:id="@+id/checkbox_contract_app"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/normal_padding"
+                android:text="@string/fee_reminder" />
+
+            <Button
+                android:id="@+id/button_next"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/normal_padding"
+                android:background="@drawable/bg_button"
+                android:text="@string/next"
+                android:textAllCaps="false"
+                android:textColor="#880015" />
+
+        </LinearLayout>
+
+    </ScrollView>
+</layout>

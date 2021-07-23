@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/large_margin"
+        android:weightSum="6">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="@dimen/large_margin"
+            android:gravity="center_horizontal"
+            android:text="@string/recorde_video"
+            android:textAppearance="@style/TextTitle" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/normal_padding"
+            android:text="@string/take_video_role"
+            android:textAppearance="@style/SecondTitle" />
+
+        <CheckBox
+            android:id="@+id/checkbox_black_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/normal_padding"
+            android:text="@string/siyah_carsaf_serdim" />
+
+        <CheckBox
+            android:id="@+id/checkbox_clothes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/normal_padding"
+            android:text="@string/child_clothes" />
+
+        <CheckBox
+            android:id="@+id/checkbox_fix_camera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/normal_padding"
+            android:text="@string/customize_camera" />
+
+        <Button
+            android:id="@+id/button_iam_ready"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/normal_padding"
+            android:background="@drawable/round_button_bg"
+            android:text="@string/iam_ready"
+            android:textAllCaps="false" />
+
+    </LinearLayout>
+</layout>

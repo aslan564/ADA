@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.fragment.video.VideosFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|center_vertical"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_video"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:listitem="@layout/layout_video_item" />
+
+            <ImageView
+                android:id="@+id/image_view_sentimental"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center|center_vertical"
+                android:layout_margin="@dimen/large_margin"
+                android:contentDescription="@string/sentiment_icon"
+                android:src="@drawable/ic_outline_sentiment_dissatisfied_24" />
+
+            <TextView
+                android:id="@+id/text_view_info_videos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/videos_info"
+                android:textAppearance="@style/SecondTitle" />
+
+            <Button
+                android:id="@+id/button_take_video"
+                style="@style/ButtonAppearance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/large_margin"
+                android:background="@drawable/round_button_bg"
+                android:text="@string/take_video"
+                android:textAllCaps="false" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:constraint_referenced_ids="text_view_info_videos,button_take_video,image_view_sentimental" />
+        </LinearLayout>
+    </ScrollView>
+</layout>

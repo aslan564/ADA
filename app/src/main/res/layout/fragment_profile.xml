@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModelChildInfo"
+            type="aslan.aslanov.videocapture.viewModel.registry.UserViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.fragment.profile.ProfileFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/large_margin">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:text="@string/profile"
+                android:textAppearance="@style/TextTitle" />
+
+            <Button
+                android:id="@+id/button_reportable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/xx_large_margin"
+                android:layout_marginVertical="@dimen/large_margin"
+                android:background="@drawable/round_button_bg"
+                android:text="@string/request_report"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView3"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/text_view_reportable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/xx_large_margin"
+                android:layout_marginVertical="@dimen/normal_padding"
+                android:text="@{String.valueOf(viewModelChildInfo.childUserCreate.report.description)}"
+                android:textAppearance="@style/FooterStyle" />
+
+            <TextView
+                android:id="@+id/textViewNameSurname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/name_surname"
+                android:textAppearance="@style/SecondTitle" />
+
+            <TextView
+                android:id="@+id/text_view_name_surname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(viewModelChildInfo.childUserCreate.child.name)}"
+                android:textAppearance="@style/TextTitle"
+                app:layout_constraintEnd_toEndOf="@+id/button"
+                app:layout_constraintStart_toStartOf="@+id/textViewNameSurname"
+                app:layout_constraintTop_toBottomOf="@+id/textViewNameSurname"
+                tools:text="Anil" />
+
+            <TextView
+                android:id="@+id/textViewWaitingBirthday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/large_margin"
+                android:text="@string/waiting_birthday"
+                android:textAppearance="@style/SecondTitle" />
+
+            <TextView
+                android:id="@+id/text_view_waiting_brthday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(viewModelChildInfo.childUserCreate.child.estimatedBirthDate)}"
+                android:textAppearance="@style/TextTitle"
+                app:layout_constraintEnd_toEndOf="@+id/button"
+                app:layout_constraintStart_toStartOf="@+id/textViewWaitingBirthday"
+                app:layout_constraintTop_toBottomOf="@+id/textViewWaitingBirthday"
+                tools:text="01.05.2021" />
+
+            <TextView
+                android:id="@+id/textViewRealBirthday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/large_margin"
+                android:text="@string/real_birthday"
+                android:textAppearance="@style/SecondTitle" />
+
+            <TextView
+                android:id="@+id/text_view_real_birthday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(viewModelChildInfo.childUserCreate.child.realBirthDate)}"
+                android:textAppearance="@style/TextTitle"
+                tools:text="01.05.2021" />
+
+            <TextView
+                android:id="@+id/textViewWeightBirthday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/large_margin"
+                android:text="@string/birthday_weight"
+                android:textAppearance="@style/SecondTitle" />
+
+            <TextView
+                android:id="@+id/text_view_weight_birthday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(viewModelChildInfo.childUserCreate.child.grams)}"
+                android:textAppearance="@style/TextTitle"
+                tools:text="3200" />
+
+            <TextView
+                android:id="@+id/textViewGender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/large_margin"
+                android:text="@string/gender"
+                android:textAppearance="@style/SecondTitle" />
+
+            <TextView
+                android:id="@+id/text_view_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(viewModelChildInfo.childUserCreate.child.sexuality)}"
+                android:textAppearance="@style/TextTitle"
+                tools:text="Erkek" />
+
+            <TextView
+                android:id="@+id/textViewReferringDoctor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/large_margin"
+                android:text="@string/referring_doctor_name"
+                android:textAppearance="@style/SecondTitle" />
+
+            <TextView
+                android:id="@+id/text_view_referring_doctor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(viewModelChildInfo.childUserCreate.child.doctorName)}"
+                android:textAppearance="@style/TextTitle"
+                tools:text="Selim Savsar" />
+
+            <TextView
+                android:id="@+id/textViewEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/large_margin"
+                android:layout_marginBottom="8dp"
+                android:text="@string/email_address"
+                android:textAppearance="@style/SecondTitle" />
+
+            <TextView
+                android:id="@+id/text_view_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(viewModelChildInfo.childUserCreate.email)}"
+                android:textAppearance="@style/TextTitle"
+                tools:text="aslan@gmail.com" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/large_margin"
+                android:gravity="start|center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textViewWrongInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/normal_padding"
+                    android:layout_marginRight="@dimen/normal_padding"
+                    android:gravity="start"
+                    android:text="@string/wrong_info"
+                    android:textAlignment="viewStart"
+                    android:textAppearance="@style/SecondTitle" />
+
+                <Button
+                    android:id="@+id/text_view_wrong_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_padding"
+                    android:layout_marginLeft="@dimen/normal_padding"
+                    android:background="@drawable/round_button_bg"
+                    android:text="@string/contact_our"
+                    android:textAppearance="@style/FooterStyle" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+</layout>

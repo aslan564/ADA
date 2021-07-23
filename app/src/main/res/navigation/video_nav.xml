@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/video_nav"
+    app:startDestination="@id/menu_videos">
+
+    <fragment
+        android:id="@+id/menu_videos"
+        android:name="aslan.aslanov.videocapture.ui.fragment.video.VideosFragment"
+        android:label="Video Fragment"
+        tools:layout="@layout/fragment_videos">
+        <action
+            android:id="@+id/action_video_fragment_to_profile_fragment"
+            app:destination="@+id/profile_fragment" />
+       <!-- <action
+            android:id="@+id/action_menu_fragment_to_camera_fragment"
+            app:destination="@+id/fragment_camera" />-->
+    </fragment>
+
+    <fragment
+        android:id="@+id/menu_profile"
+        android:name="aslan.aslanov.videocapture.ui.fragment.profile.ProfileFragment"
+        android:label="Video Fragment"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profile_fragment_to_video_fragment"
+            app:destination="@+id/video_fragment" />
+    </fragment>
+
+   <!-- <fragment
+        android:id="@+id/fragment_camera"
+        android:name="aslan.aslanov.videocapture.ui.fragment.camera.CameraFragment"
+        android:label="Camera  Fragment"
+        tools:layout="@layout/fragment_camera">
+
+        <argument android:name="uriVideo"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>-->
+</navigation>

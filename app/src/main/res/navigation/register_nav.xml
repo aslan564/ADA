@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/register_nav"
+    app:startDestination="@id/register_with_phone_fragment">
+
+    <fragment
+        android:id="@+id/register_with_phone_fragment"
+        android:name="aslan.aslanov.videocapture.ui.fragment.register.RegisterFragment"
+        android:label="Register with phone"
+        tools:layout="@layout/fragment_register">
+        <action
+            android:id="@+id/action_register_fragment_to_validation_fragment"
+            app:destination="@+id/validate_with_code_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/validate_with_code_fragment"
+        android:name="aslan.aslanov.videocapture.ui.fragment.validation.ValidationFragment"
+        android:label="Validate phone number"
+        tools:layout="@layout/fragment_validation">
+
+        <argument
+            android:name="userResponse"
+            app:argType="aslan.aslanov.videocapture.model.user.UserResponse"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_validate_fragment_to_child_info_fragment"
+            app:destination="@+id/child_info_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/child_info_fragment"
+        android:name="aslan.aslanov.videocapture.ui.fragment.childInfo.ChildInfoFragment"
+        android:label="Child info"
+        tools:layout="@layout/fragment_child_info" >
+        <argument
+            android:name="validationResponse"
+            app:argType="aslan.aslanov.videocapture.model.validation.ValidationResponse"
+            app:nullable="true" />
+    </fragment>
+</navigation>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">VideoCapture</string>
+    <string name="enter_your_phone">Teefon Numaranizi Girin</string>
+    <string name="_00905342903637">00905342903637</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="register">Register</string>
+    <string name="please_enter_child_info">Lutfen cocugunuzun bilgilerini girin.</string>
+    <string name="name_surname">Isim Soyisim</string>
+    <string name="waiting_birthday">Beklenen Dogum Tarihi</string>
+    <string name="real_birthday">Gercek Dogum Tarihi</string>
+    <string name="birthday_weight">Dogum Kilosu</string>
+    <string name="gender">Cinsiyyet</string>
+    <string name="weight_example">(gram cinsinden girin or:3250)</string>
+    <string name="man">Erkek</string>
+    <string name="woman">Kiz</string>
+    <string name="referring_doctor_name">Yonlendiren Doktor Ismi(opsiyonel)</string>
+    <string name="email_address">Email Adresi</string>
+    <string name="privacy_policy">Gizllilik Politikasi ve Kullanimi Kosullarini\n
+    okudum, onayliyorum</string>
+    <string name="fee_reminder">CP Uygulamasi ucretli bir uygulamadir\n
+    sizden kayit sirasinda ucret talep edilmez,\n
+        surecin sonunda rapor uretilmesi icin XX\n
+        TL ucret talep edilecektir, bu ucreti\n
+        bu ucreti odemeden raporu almayacagim
+    </string>
+    <string name="next">Devam Et</string>
+    <string name="info_image">info image</string>
+    <string name="information_correct">Bilgilerim Dogru</string>
+    <string name="turn_back">Geri Don</string>
+    <string name="required">This field required</string>
+    <string name="email_not_valid">Email not valid</string>
+    <string name="welcome_ada">ADA uygulamasina hos geldiniz.</string>
+    <string name="usage_ada">ADA\'yi kullana bilmek icin telefon\n
+    numaraniz ile giris yapmaniz\n
+    gerekmektedir</string>
+    <string name="app_logo_image">app logo image</string>
+
+    <string name="info_medical_director">Medical director hakkinda bilgi</string>
+    <string name="about_app">Kullanmakta oldugunuz surum erken asama\n surumudur, gelistirmelerimiz devam etmektedir</string>
+    <string name="secret_policy">Gizlilik Politikasi</string>
+    <string name="usage_roles">Kullanim Kosullari</string>
+    <string name="send_pass_again">Tekrar Kod Gonder</string>
+    <string name="confirimation_code">Dogrulama Kodu</string>
+    <string name="time_example">00:10</string>
+    <string name="example_code">0090</string>
+    <string name="videos">Videolar</string>
+    <string name="profile">Profil</string>
+    <string name="get_the_news">Girdiginiz bilgiler daha sonra\n guncellenemez. Lutfen bilgilerin\n dogrulugundan emin olarak devam edin</string>
+    <string name="network_result">Beklenen doğum tarihi değerlendirme haftaları arasında değildir. Beklenen doğum tarihi üzerinden 14 hafta geçti ise rapor doğru sonuç veremeyecektir</string>
+    <string name="take_video">Video Cek</string>
+
+    <string name="sentiment_icon">sentiment icon</string>
+    <string name="videos_info">Henuz hic video cekmediniz\n Videolariniz siz cektikten sonra\n burada gorunur.</string>
+    <string name="take_video_role">Lutfen Asagidaki hazirliklari yaptiktan sonra isaretleyip hazirima basin</string>
+    <string name="recorde_video">Video Cek</string>
+    <string name="siyah_carsaf_serdim">Siyah carsaf serdim</string>
+    <string name="child_clothes">Bebegin kiyafetlerini cikardim</string>
+    <string name="customize_camera">Kamerayei bebegin tum\n vucudunu cekecek sekilde\n ayarladim</string>
+    <string name="iam_ready">Hazirim</string>
+    <string name="request_report">Rapor Talep Et</string>
+    <string name="wrong_info">Bilgilerde hata\n oldugunu\n dusunuyorsaniz bize\n ulasabilirsiniz</string>
+    <string name="contact_our">Bize Ulasin</string>
+</resources>
