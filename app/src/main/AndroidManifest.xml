@@ -22,7 +22,6 @@
         android:theme="@style/Theme.VideoCapture"
         android:usesCleartextTraffic="true"
         tools:ignore="UnusedAttribute">
-        <activity android:name=".ui.fragment.camera.VideoCapture" />
         <activity android:name=".ui.activity.VideoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
