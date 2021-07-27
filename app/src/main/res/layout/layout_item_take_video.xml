@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="@dimen/normal_padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image_view_sentimental"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center|center_vertical"
+            android:contentDescription="@string/sentiment_icon"
+            android:src="@drawable/ic_outline_sentiment_dissatisfied_24" />
+
+        <TextView
+            android:id="@+id/text_view_info_videos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/videos_info"
+            android:textAppearance="@style/SecondTitle" />
+
+        <Button
+            android:id="@+id/button_take_video"
+            style="@style/ButtonAppearance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/large_margin"
+            android:background="@drawable/round_button_bg"
+            android:text="@string/take_video"
+            android:textAllCaps="false" />
+
+      <!--  <androidx.constraintlayout.widget.Group
+            android:id="@+id/group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{videModelVideos.videoListSize==0?View.VISIBLE:View.GONE}"
+            app:constraint_referenced_ids="text_view_info_videos,button_take_video,image_view_sentimental" />
+-->
+    </LinearLayout>
+</layout>

@@ -1,22 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="pojoVideoItem"
+            type="aslan.aslanov.videocapture.model.video.VideoPojo" />
     </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="wrap_content"
+        android:padding="@dimen/marginContainer">
 
         <TextView
-            android:id="@+id/textView8"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textAppearance="@style/FooterStyle"
-            android:text="asdassssssssssssssssssssssssssssss"
-            tools:layout_editor_absoluteX="171dp"
-            tools:layout_editor_absoluteY="127dp" />
+            android:id="@+id/videoRecyclerViewWeek"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:addStringWeek="@{String.valueOf(pojoVideoItem.weeks)}"
+            tools:text="@string/video_valid"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/videoRecyclerViewDate"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginSubContainer"
+            android:text="@{String.valueOf(pojoVideoItem.created)}"
+            tools:text="@string/video_valid"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/videoRecyclerViewWeek" />
+
+        <ImageView
+            android:id="@+id/video_recycler_view_status_icon"
+            android:layout_width="@dimen/recyclerViewStatusIconSize"
+            android:layout_height="@dimen/recyclerViewStatusIconSize"
+            android:layout_marginEnd="@dimen/marginSubContainer"
+            android:contentDescription="@string/video_valid"
+            android:src="@drawable/ic_success"
+            app:layout_constraintBottom_toBottomOf="@+id/video_recycler_view_status"
+            app:layout_constraintEnd_toStartOf="@+id/video_recycler_view_status"
+            app:layout_constraintTop_toTopOf="@+id/video_recycler_view_status" />
+
+        <TextView
+            android:id="@+id/video_recycler_view_status"
+            style="@style/TextAppearance.MaterialComponents.Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/video_valid"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@+id/videoRecyclerViewDate"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:drawablePadding="@dimen/normal_padding"
+            app:layout_constraintTop_toTopOf="@+id/videoRecyclerViewWeek"
+           />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/videoRecyclerViewRetryButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/marginContainer"
+            android:background="@drawable/round_button_outline_bg"
+            android:enabled="true"
+            android:text="@string/record_again"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/videoRecyclerViewDate" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

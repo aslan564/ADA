@@ -5,6 +5,11 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="videModelVideos"
+            type="aslan.aslanov.videocapture.viewModel.video.VideoViewModel" />
     </data>
 
     <ScrollView
@@ -34,7 +39,6 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center|center_vertical"
-                android:layout_margin="@dimen/large_margin"
                 android:contentDescription="@string/sentiment_icon"
                 android:src="@drawable/ic_outline_sentiment_dissatisfied_24" />
 
@@ -60,8 +64,11 @@
                 android:id="@+id/group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
-                app:constraint_referenced_ids="text_view_info_videos,button_take_video,image_view_sentimental" />
+                android:visibility="gone"
+                app:constraint_referenced_ids="text_view_info_videos,image_view_sentimental" />
         </LinearLayout>
     </ScrollView>
 </layout>
+
+<!--                android:visibility="@{videModelVideos.videoListSize==0?View.VISIBLE:View.GONE}"
+-->

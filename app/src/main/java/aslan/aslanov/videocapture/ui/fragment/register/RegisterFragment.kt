@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import aslan.aslanov.videocapture.databinding.FragmentRegisterBinding
 import aslan.aslanov.videocapture.model.registerModel.PhoneRequestBody
 import aslan.aslanov.videocapture.util.logApp
-import aslan.aslanov.videocapture.util.makeSnackbar
+import aslan.aslanov.videocapture.util.makeSnackBar
 import aslan.aslanov.videocapture.viewModel.registry.RegisterViewModel
 
 class RegisterFragment : Fragment() {
@@ -37,11 +37,11 @@ class RegisterFragment : Fragment() {
             val number = editTextPhoneNumber.text.trim()
             if (code.isEmpty() || number.isEmpty()) {
                 logApp("country code cannot be  null ")
-                makeSnackbar("Country  code and number cannot be  null!! ", mainContainer)
+                makeSnackBar("Country  code and number cannot be  null!! ", mainContainer)
                 return@setOnClickListener
             } else {
                 if (number.length <= 9) {
-                    makeSnackbar("Please wright correct number !! ", mainContainer)
+                    makeSnackBar("Please wright correct number !! ", mainContainer)
                     return@setOnClickListener
                 } else {
                     logApp("$code")
@@ -71,7 +71,7 @@ class RegisterFragment : Fragment() {
 
         errorMessageRegister.observe(viewLifecycleOwner, { message ->
             message?.let {
-                makeSnackbar(it, requireView())
+                makeSnackBar(it, requireView())
             }
         })
     }

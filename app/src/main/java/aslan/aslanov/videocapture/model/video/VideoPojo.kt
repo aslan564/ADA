@@ -5,14 +5,16 @@ import androidx.recyclerview.widget.DiffUtil
 import com.squareup.moshi.Json
 
 data class VideoPojo(
-    @Json(name = "created") val created: String,
-    @Json(name = "id") val id: Int,
-    @Json(name = "status") val status: String,
-    @Json(name = "title") val title: String,
-    @Json(name = "updated") val updated: String,
-    @Json(name = "url") val url: String,
-    @Json(name = "weeks") val weeks: Int
+    @Json(name = "created") val created: String?,
+    @Json(name = "id") val id: Int?,
+    @Json(name = "status") val status: String?,
+    @Json(name = "title") val title: String?,
+    @Json(name = "updated") val updated: String?,
+    @Json(name = "url") val url: String?,
+    @Json(name = "weeks") val weeks: Int?
 ) : Comparable<VideoPojo> {
+    constructor() : this(null, null, null, null, null, null, null)
+
     override fun compareTo(other: VideoPojo): Int {
         return if (
             this.id == other.id &&
@@ -31,19 +33,16 @@ data class VideoPojo(
 
 }
 
-class VideoDiffUtil(private val oldList: List<VideoPojo>, private val newList: List<VideoPojo>) :
-    DiffUtil.Callback() {
-    override fun getOldListSize() = oldList.size
-
-    override fun getNewListSize() = newList.size
-
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[newItemPosition].id == newList[newItemPosition].id
+class VideoDiffUtil() :
+    DiffUtil.ItemCallback<VideoPojo>() {
+    override fun areItemsTheSame(oldItem: VideoPojo, newItem: VideoPojo): Boolean {
+        return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        val result = newList[newItemPosition].compareTo(oldList[oldItemPosition])
+    override fun areContentsTheSame(oldItem: VideoPojo, newItem: VideoPojo): Boolean {
+        val result = oldItem.compareTo(newItem)
         return result == 0
     }
+
 
 }

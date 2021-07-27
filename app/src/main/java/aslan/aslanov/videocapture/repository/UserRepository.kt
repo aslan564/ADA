@@ -32,7 +32,7 @@ class UserRepository {
                 }
             }
         } catch (e: Exception) {
-            onComplete(NetworkResult.error(e.message.toString()))
+            onComplete(NetworkResult.error("Please check your internet connection "))
         }
     }
 
@@ -40,8 +40,8 @@ class UserRepository {
         token: String,
         onComplete: (NetworkResult<ChildResponse>) -> Unit
     ) {
-        val response = serviceAccount.getUserInfo(addBearer(token))
         try {
+            val response = serviceAccount.getUserInfo(addBearer(token))
             if (response.isSuccessful && response.code() == 200) {
                 val validateData = response.body()
                 validateData?.let {
@@ -53,7 +53,7 @@ class UserRepository {
                 }
             }
         } catch (e: Exception) {
-            onComplete(NetworkResult.error(e.message.toString()))
+            onComplete(NetworkResult.error("Please check your internet connection "))
         }
     }
 

@@ -1,7 +1,6 @@
 package aslan.aslanov.videocapture.ui.fragment.validation
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,10 +11,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import aslan.aslanov.videocapture.databinding.FragmentValidationBinding
 import aslan.aslanov.videocapture.model.registerModel.CodeValidationBody
-import aslan.aslanov.videocapture.ui.activity.VideoActivity
 import aslan.aslanov.videocapture.util.makeToast
 import aslan.aslanov.videocapture.util.logApp
-import aslan.aslanov.videocapture.util.makeSnackbar
+import aslan.aslanov.videocapture.util.makeSnackBar
 import aslan.aslanov.videocapture.util.setTimer
 import aslan.aslanov.videocapture.viewModel.registry.RegisterViewModel
 
@@ -103,7 +101,7 @@ class ValidationFragment : Fragment() {
     private fun observeValidation(): Unit = with(viewModel) {
         errorMessageValidation.observe(viewLifecycleOwner, { message ->
             message?.let {
-                makeSnackbar(it, requireView())
+                makeSnackBar(it, requireView())
             }
         })
     }

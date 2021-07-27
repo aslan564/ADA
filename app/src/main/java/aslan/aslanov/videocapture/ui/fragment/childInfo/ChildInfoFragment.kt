@@ -68,7 +68,7 @@ class ChildInfoFragment : Fragment() {
         })
         errorMessageConfirmChildInfo.observe(viewLifecycleOwner, { error ->
             error?.let {
-                makeSnackbar(it, requireView())
+                makeSnackBar(it, requireView())
             }
         })
     }

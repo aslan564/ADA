@@ -62,4 +62,6 @@
         oldugunu\n dusunuyorsaniz bize\n
         ulasabilirsiniz</string>
     <string name="contact_our">Bize Ulasin</string>
+    <string name="video_valid">Video Geçerli</string>
+    <string name="record_again">Tekrar Cekin</string>
 </resources>

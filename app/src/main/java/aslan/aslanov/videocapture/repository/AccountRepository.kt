@@ -23,9 +23,9 @@ class AccountRepository {
         requestBody: PhoneRequestBody,
         onComplete: (NetworkResult<UserResponse>) -> Unit
     ) {
-        val response = serviceAccount.login(requestBody)
-        Log.d("validateUser", "getUSerData: $response")
         try {
+            val response = serviceAccount.login(requestBody)
+            Log.d("validateUser", "getUSerData: $response")
             if (response.isSuccessful && response.code() == 201) {
                 val data = response.body()
                 data?.let {
@@ -48,9 +48,9 @@ class AccountRepository {
         codeValidationCode: CodeValidationBody,
         onComplete: (NetworkResult<ValidationResponse>) -> Unit
     ) {
-        val response = serviceAccount.validate(userId, codeValidationCode)
-        Log.d("validateUser", "validateUser: $response")
         try {
+            val response = serviceAccount.validate(userId, codeValidationCode)
+            Log.d("validateUser", "validateUser: $response")
             if (response.isSuccessful) {
                 val validateData = response.body()
                 validateData?.let {validateUser->
@@ -82,7 +82,7 @@ class AccountRepository {
                 }
             }
         } catch (e: Exception) {
-            onComplete(NetworkResult.error(e.message.toString()))
+            onComplete(NetworkResult.error("Please check your internet connection "))
         }
     }
 
@@ -90,8 +90,8 @@ class AccountRepository {
         token: String,
         onComplete: (NetworkResult<UserCheck>) -> Unit
     ) {
-        val response = serviceAccount.userCheck(addBearer(token))
         try {
+            val response = serviceAccount.userCheck(addBearer(token))
             if (response.isSuccessful && response.code() == 200) {
                 val validateData = response.body()
                 validateData?.let {
@@ -104,7 +104,7 @@ class AccountRepository {
                 }
             }
         } catch (e: Exception) {
-            onComplete(NetworkResult.error(e.message.toString()))
+            onComplete(NetworkResult.error("Please check your internet connection "))
         }
     }
 

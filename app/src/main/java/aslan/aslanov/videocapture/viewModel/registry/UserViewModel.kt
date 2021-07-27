@@ -49,7 +49,7 @@ class UserViewModel : ViewModel() {
                 when (response.status) {
                     Status.ERROR -> {
                         logApp("UserViewModel : ${response.message}")
-                       // _errorMessage.value=response.message.toString()
+                        _errorMessageConfirmChildInfo.value=response.message.toString()
                     }
                     Status.LOADING -> {
                         logApp("UserViewModel : ${Status.LOADING}")

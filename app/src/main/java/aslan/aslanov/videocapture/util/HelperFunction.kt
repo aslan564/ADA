@@ -58,13 +58,15 @@ fun setTimer(onComplete: (String, Boolean) -> Unit) {
 
 fun <T> catchServerError(error: ResponseBody?, onCatchError: (NetworkResult<T>) -> Unit) {
     try {
-        val jObjError =
-            JSONObject(error!!.string())
-        val messageServer = jObjError.getString("error")
-        val errorServer = jObjError.getString("message")
-        logApp("messageServer$messageServer + errorServer$errorServer")
-        onCatchError(NetworkResult.error("Hata: $errorServer"))
-
+        val jObjError = error?.let {
+            JSONObject(it.string())
+        }
+        jObjError?.let {
+            val messageServer = jObjError.getString("error")
+            val errorServer = jObjError.getString("message")
+            logApp("messageServer$messageServer + errorServer$errorServer")
+            onCatchError(NetworkResult.error("Hata: $errorServer"))
+        }
     } catch (e: Exception) {
         logApp(e.message ?: " not exception")
         onCatchError(NetworkResult.error(e.message ?: "an error occurred "))
@@ -76,7 +78,7 @@ fun makeToast(message: String, context: Context) {
     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 }
 
-fun makeSnackbar(message: String, view: View) {
+fun makeSnackBar(message: String, view: View) {
     Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
 }
 

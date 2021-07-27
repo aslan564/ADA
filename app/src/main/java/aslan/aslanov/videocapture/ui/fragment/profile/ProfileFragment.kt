@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import aslan.aslanov.videocapture.R
 import aslan.aslanov.videocapture.databinding.FragmentProfileBinding
+import aslan.aslanov.videocapture.util.makeSnackBar
 import aslan.aslanov.videocapture.viewModel.registry.UserViewModel
 
 
@@ -43,6 +44,11 @@ class ProfileFragment : Fragment() {
 
     private fun observeData(): Unit = with(viewModel) {
         getChildUserDate()
+        errorMessageConfirmChildInfo.observe(viewLifecycleOwner, { error ->
+            error?.let {
+                makeSnackBar(it, requireView())
+            }
+        })
     }
 
     companion object {
