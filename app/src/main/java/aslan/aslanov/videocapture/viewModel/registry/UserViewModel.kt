@@ -1,5 +1,6 @@
 package aslan.aslanov.videocapture.viewModel.registry
 
+import android.media.MediaPlayer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import aslan.aslanov.videocapture.local.manager.SharedPreferenceManager
 import aslan.aslanov.videocapture.model.registerModel.UserRequestBody
 import aslan.aslanov.videocapture.model.user.child.ChildResponse
+import aslan.aslanov.videocapture.model.video.ReportRequest
 import aslan.aslanov.videocapture.network.Status
 import aslan.aslanov.videocapture.repository.UserRepository
 import aslan.aslanov.videocapture.util.logApp
@@ -56,6 +58,28 @@ class UserViewModel : ViewModel() {
                     }
                     Status.SUCCESS -> {
                         _childUserCanCreate.value = response.data
+                        logApp("UserViewModel : ${response.data}")
+                    }
+                }
+            }
+        }
+    }
+
+    fun reportRequest(onCompletionListener: (ReportRequest?,String?)->Unit)=viewModelScope.launch {
+        SharedPreferenceManager.token?.let {
+            repository.reportRequest(it){response->
+                when (response.status) {
+                    Status.ERROR -> {
+                        logApp("UserViewModel : ${response.message}")
+                        onCompletionListener(null,response.message)
+                    }
+                    Status.LOADING -> {
+                        logApp("UserViewModel : ${Status.LOADING}")
+                    }
+                    Status.SUCCESS -> {
+                        response.data?.let{report->
+                            onCompletionListener(report,response.message)
+                        }
                         logApp("UserViewModel : ${response.data}")
                     }
                 }

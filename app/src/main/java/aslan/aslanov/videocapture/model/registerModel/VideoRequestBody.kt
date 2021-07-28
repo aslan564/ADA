@@ -8,6 +8,4 @@ import okhttp3.RequestBody
 data class VideoRequestBody(
     @Json(name = "file") val fileName: String,
     @Json(name = "type") val videoFile: RequestBody,
-) {
-
-}
+)

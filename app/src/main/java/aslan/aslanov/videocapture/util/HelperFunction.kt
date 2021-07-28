@@ -24,7 +24,7 @@ import java.lang.Exception
 import java.time.LocalDate
 import java.util.*
 
-private const val TAG = "HelperFunction"
+private const val TAG = "HELPER_FUNCTION_TAG"
 fun logApp(log: String) {
     Log.d(TAG, "logApp: $log")
 }
@@ -65,7 +65,7 @@ fun <T> catchServerError(error: ResponseBody?, onCatchError: (NetworkResult<T>) 
             val messageServer = jObjError.getString("error")
             val errorServer = jObjError.getString("message")
             logApp("messageServer$messageServer + errorServer$errorServer")
-            onCatchError(NetworkResult.error("Hata: $errorServer"))
+            onCatchError(NetworkResult.error(errorServer))
         }
     } catch (e: Exception) {
         logApp(e.message ?: " not exception")

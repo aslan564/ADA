@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">VideoCapture</string>
+    <string name="app_name">ADA</string>
     <string name="enter_your_phone">Teefon Numaranizi Girin</string>
     <string name="_00905342903637">00905342903637</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -63,4 +63,5 @@
     <string name="contact_our">Bize Ulasin</string>
     <string name="video_valid">Video Geçerli</string>
     <string name="record_again">Tekrar Cekin</string>
+    <string name="close_alert_dialog">close Alert Dialog</string>
 </resources>

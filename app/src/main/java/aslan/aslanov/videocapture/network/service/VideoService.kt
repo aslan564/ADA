@@ -1,11 +1,9 @@
 package aslan.aslanov.videocapture.network.service
 
-import aslan.aslanov.videocapture.model.registerModel.VideoRequestBody
-import aslan.aslanov.videocapture.model.video.VideoCanCreate
+import aslan.aslanov.videocapture.model.user.child.Reportable
 import aslan.aslanov.videocapture.model.video.VideoPojo
 import aslan.aslanov.videocapture.model.video.VideoResponse
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -26,5 +24,5 @@ interface VideoService {
     @GET("video/can-create")
     suspend fun videoCanCreate(
         @Header("Authorization")authorization: String
-    ):Response<VideoCanCreate>
+    ):Response<Reportable>
 }

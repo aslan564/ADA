@@ -1,7 +1,6 @@
 package aslan.aslanov.videocapture.repository
 
-import aslan.aslanov.videocapture.model.registerModel.VideoRequestBody
-import aslan.aslanov.videocapture.model.video.VideoCanCreate
+import aslan.aslanov.videocapture.model.user.child.Reportable
 import aslan.aslanov.videocapture.model.video.VideoPojo
 import aslan.aslanov.videocapture.model.video.VideoResponse
 import aslan.aslanov.videocapture.network.NetworkResult
@@ -10,7 +9,6 @@ import aslan.aslanov.videocapture.util.addBearer
 import aslan.aslanov.videocapture.util.catchServerError
 import aslan.aslanov.videocapture.util.logApp
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 
 class VideoRepository {
     private val service = RetrofitClient.videoService
@@ -65,7 +63,7 @@ class VideoRepository {
             onComplete(NetworkResult.error("Please check your internet connection "))
         }
     }
-    suspend fun videoCanCreate(token: String,onComplete: (NetworkResult<VideoCanCreate>) -> Unit){
+    suspend fun videoCanCreate(token: String,onComplete: (NetworkResult<Reportable>) -> Unit){
         try {
             val response=service.videoCanCreate(addBearer(token))
             if (response.isSuccessful && response.code() == 200) {
@@ -74,7 +72,7 @@ class VideoRepository {
                     onComplete(NetworkResult.success(it))
                 }?:onComplete(NetworkResult.error("video not uploaded"))
             }else{
-                catchServerError<VideoCanCreate>(response.errorBody()){
+                catchServerError<Reportable>(response.errorBody()){
                     onComplete(it)
                 }
             }

@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.ImageButton
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -25,8 +26,10 @@ import androidx.fragment.app.viewModels
 import aslan.aslanov.videocapture.R
 import aslan.aslanov.videocapture.databinding.FragmentVideosBinding
 import aslan.aslanov.videocapture.model.registerModel.VideoRequestBody
-import aslan.aslanov.videocapture.model.video.VideoCanCreate
+import aslan.aslanov.videocapture.model.user.child.Reportable
+import aslan.aslanov.videocapture.service.DownloadService
 import aslan.aslanov.videocapture.ui.fragment.video.adapter.VideoAdapter
+import aslan.aslanov.videocapture.util.NotificationConstant.VIDEO_REQUEST_BODY
 import aslan.aslanov.videocapture.util.createAlertDialogAny
 import aslan.aslanov.videocapture.util.logApp
 import aslan.aslanov.videocapture.util.makeSnackBar
@@ -43,7 +46,7 @@ import java.util.*
 class VideosFragment : Fragment() {
     private val binding by lazy { FragmentVideosBinding.inflate(layoutInflater) }
     private val adapterVideo by lazy {
-        VideoAdapter() { videoPojo ->
+        VideoAdapter { videoPojo ->
             if (videoPojo.isNotEmpty()) {
                 // binding.group.visibility = View.GONE
             } else {
@@ -73,7 +76,12 @@ class VideosFragment : Fragment() {
     private fun bindUI(): Unit = with(binding) {
         lifecycleOwner = this@VideosFragment
         binding.recyclerViewVideo.adapter = adapterVideo
-
+        mainContainer.setOnRefreshListener {
+            viewModel.getVideos {
+                makeToast(it, requireContext())
+            }
+            mainContainer.isRefreshing = false
+        }
 
         buttonTakeVideo.setOnClickListener {
             isCameraReady()
@@ -87,6 +95,9 @@ class VideosFragment : Fragment() {
     }
 
     private fun observeData(): Unit = with(viewModel) {
+        getVideos {
+            logApp(it)
+        }
         errorMessage.observe(viewLifecycleOwner, { message ->
             message?.let {
                 makeSnackBar(it, requireView())
@@ -95,28 +106,37 @@ class VideosFragment : Fragment() {
 
         videoList.observe(viewLifecycleOwner, { video ->
             if (video != null) {
-                //makeToast(it.size.toString(), requireContext())
-                binding.group.visibility = View.GONE
+                logApp("$video")
+                if (video.isEmpty()) {
+                    binding.groupTakeVideo.visibility = View.VISIBLE
+                } else {
+                    //makeToast(it.size.toString(), requireContext())
+                    binding.groupTakeVideo.visibility = View.GONE
+                }
                 adapterVideo.submitList(video)
             } else {
-                binding.group.visibility = View.VISIBLE
+                binding.groupTakeVideo.visibility = View.VISIBLE
             }
         })
     }
 
     private fun recordVideo(data: VideoRequestBody) {
-        logApp("2 $data")
+        val intent=Intent(requireContext(),DownloadService::class.java)
+        intent.putExtra(VIDEO_REQUEST_BODY,data.fileName)
+        requireActivity().startService(intent)
         // val reqFile = data.videoFile.toRequestBody("video/mp4".toMediaTypeOrNull());
         val multipartBody = MultipartBody.Part.createFormData("file", data.fileName, data.videoFile)
         viewModel.addVideoToDatabase(multipartBody) {
             makeToast(it, requireContext())
+          /*  val intentService=Intent(requireContext(),DownloadService::class.java)
+            requireActivity().stopService(intentService)*/
         }
     }
 
     private fun isCameraReady() {
-        viewModel.videoCanCreate() { videoCanCreate: VideoCanCreate?, s: String? ->
+        viewModel.videoCanCreate { videoCanCreate: Reportable?, s: String? ->
             videoCanCreate?.let {
-                if (videoCanCreate.childStatus) {
+                if (videoCanCreate.status) {
                     createAlertDialogAny(
                         requireContext(),
                         R.layout.take_video_dialog
@@ -125,6 +145,7 @@ class VideosFragment : Fragment() {
                             val blackSheet = view.findViewById<CheckBox>(R.id.checkbox_black_sheet)
                             val clothes = view.findViewById<CheckBox>(R.id.checkbox_clothes)
                             val fixCamera = view.findViewById<CheckBox>(R.id.checkbox_fix_camera)
+
                             if (!blackSheet.isChecked) {
                                 setError(blackSheet)
                                 return@setOnClickListener
@@ -151,7 +172,8 @@ class VideosFragment : Fragment() {
                                             Snackbar.LENGTH_INDEFINITE
                                         )
                                             .setAction("Give Permission") { //makeToast("per", requireContext())
-                                                val cameraPermission = arrayOf(Manifest.permission.CAMERA)
+                                                val cameraPermission =
+                                                    arrayOf(Manifest.permission.CAMERA)
                                                 requestPermission.launch(cameraPermission)
                                                 alertDialog.dismiss()
                                             }.show()
@@ -166,9 +188,18 @@ class VideosFragment : Fragment() {
                                 }
                             }
                         }
+                        val closeDialogButton =
+                            view.findViewById<ImageButton>(R.id.image_button_close)
+                        closeDialogButton.setOnClickListener {
+                            if (alertDialog.isShowing) {
+                                alertDialog.dismiss()
+                            } else {
+                                logApp(" +++++++++++ alert not shoving ")
+                            }
+                        }
                     }
-                }else{
-                    makeSnackBar(videoCanCreate.descriptionInfo,requireView())
+                } else {
+                    makeSnackBar(videoCanCreate.description, requireView())
                 }
             }
         }
@@ -227,7 +258,7 @@ class VideosFragment : Fragment() {
 
     private fun captureVideo() {
         val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
-        intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 15)
+        intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 120)
         requestActivityForResult.launch(intent)
     }
 

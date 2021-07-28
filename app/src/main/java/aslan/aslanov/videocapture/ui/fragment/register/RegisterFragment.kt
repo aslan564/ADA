@@ -11,6 +11,7 @@ import aslan.aslanov.videocapture.databinding.FragmentRegisterBinding
 import aslan.aslanov.videocapture.model.registerModel.PhoneRequestBody
 import aslan.aslanov.videocapture.util.logApp
 import aslan.aslanov.videocapture.util.makeSnackBar
+import aslan.aslanov.videocapture.util.makeToast
 import aslan.aslanov.videocapture.viewModel.registry.RegisterViewModel
 
 class RegisterFragment : Fragment() {
@@ -40,24 +41,19 @@ class RegisterFragment : Fragment() {
                 makeSnackBar("Country  code and number cannot be  null!! ", mainContainer)
                 return@setOnClickListener
             } else {
-                if (number.length <= 9) {
-                    makeSnackBar("Please wright correct number !! ", mainContainer)
-                    return@setOnClickListener
-                } else {
-                    logApp("$code")
-                    logApp("$number")
-                    val registerRequestBody = PhoneRequestBody("$code$number")
-                    viewModel.registerUser(registerRequestBody){userResponse->
-                        userResponse?.let {
-                            val action =
-                                RegisterFragmentDirections.actionRegisterFragmentToValidationFragment(
-                                    it
-                                )
-                            findNavController().navigate(action)
-                        }
+                logApp("$code")
+                logApp("$number")
+                val registerRequestBody = PhoneRequestBody("$code$number")
+                viewModel.registerUser(registerRequestBody){userResponse->
+                    userResponse?.let {
+                        val action =
+                            RegisterFragmentDirections.actionRegisterFragmentToValidationFragment(
+                                it
+                            )
+                        findNavController().navigate(action)
                     }
-                    logApp("$registerRequestBody")
                 }
+                logApp("$registerRequestBody")
             }
         }
     }
@@ -71,7 +67,7 @@ class RegisterFragment : Fragment() {
 
         errorMessageRegister.observe(viewLifecycleOwner, { message ->
             message?.let {
-                makeSnackBar(it, requireView())
+                makeToast(it, requireContext())
             }
         })
     }

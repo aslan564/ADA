@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import aslan.aslanov.videocapture.local.manager.SharedPreferenceManager
-import aslan.aslanov.videocapture.model.video.VideoCanCreate
+import aslan.aslanov.videocapture.model.user.child.Reportable
 import aslan.aslanov.videocapture.model.video.VideoPojo
 import aslan.aslanov.videocapture.network.Status
 import aslan.aslanov.videocapture.repository.VideoRepository
@@ -27,9 +27,6 @@ class VideoViewModel : ViewModel() {
     val errorMessage: LiveData<String>
         get() = _errorMessage
 
-    init {
-        getVideos()
-    }
 
     fun addVideoToDatabase(
         videoRequestBody: MultipartBody.Part,
@@ -40,7 +37,9 @@ class VideoViewModel : ViewModel() {
                 when (response.status) {
                     Status.SUCCESS -> {
                         logApp(response.data.toString())
-                        getVideos()
+                        getVideos(){
+                            _errorMessage.value="list refreshed"
+                        }
                         onComplete("video yuklendi")
                     }
                     Status.LOADING -> {
@@ -56,7 +55,7 @@ class VideoViewModel : ViewModel() {
         }
     }
 
-    private fun getVideos() = viewModelScope.launch {
+    fun getVideos(onComplete: (String) -> Unit) = viewModelScope.launch {
         SharedPreferenceManager.token?.let {
             repository.getAllVideo(it) { response ->
                 when (response.status) {
@@ -64,6 +63,7 @@ class VideoViewModel : ViewModel() {
                         logApp(response.data.toString())
                         response.data?.let { newList ->
                             _videoList.value = newList.video
+                            onComplete("list refreshed")
                         }
                     }
                     Status.LOADING -> {
@@ -76,7 +76,7 @@ class VideoViewModel : ViewModel() {
             }
         }
     }
-    fun videoCanCreate(onComplete: (VideoCanCreate?,String?) -> Unit)=viewModelScope.launch{
+    fun videoCanCreate(onComplete: (Reportable?, String?) -> Unit)=viewModelScope.launch{
         SharedPreferenceManager.token?.let {
             repository.videoCanCreate(it){response->
                 when (response.status) {

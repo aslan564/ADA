@@ -5,11 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import aslan.aslanov.videocapture.R
 import aslan.aslanov.videocapture.databinding.FragmentProfileBinding
+import aslan.aslanov.videocapture.util.createAlertDialogAny
 import aslan.aslanov.videocapture.util.makeSnackBar
+import aslan.aslanov.videocapture.util.makeToast
 import aslan.aslanov.videocapture.viewModel.registry.UserViewModel
 
 
@@ -33,8 +36,20 @@ class ProfileFragment : Fragment() {
 
     private fun bindUI(): Unit = with(binding) {
         lifecycleOwner = this@ProfileFragment
-        viewModelChildInfo=this@ProfileFragment.viewModel
-
+        viewModelChildInfo = this@ProfileFragment.viewModel
+        buttonReportable.setOnClickListener {
+            viewModel.reportRequest { report, message ->
+                textViewReportable.text = message
+            }
+        }
+        buttonContactOur.setOnClickListener {
+            /*createAlertDialogAny(
+                requireContext(),
+                R.layout.layout_alert_warn
+            ) { view, alertDialog ->
+                val button = view.findViewById<Button>(R.id.custom_alert_dialog_button)
+            }*/
+        }
     }
 
     override fun onStart() {
@@ -46,7 +61,7 @@ class ProfileFragment : Fragment() {
         getChildUserDate()
         errorMessageConfirmChildInfo.observe(viewLifecycleOwner, { error ->
             error?.let {
-                makeSnackBar(it, requireView())
+                makeToast(it, requireContext())
             }
         })
     }

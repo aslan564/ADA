@@ -8,6 +8,7 @@
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <uses-feature android:name="android.hardware.camera"
         android:required="true" />
@@ -32,6 +33,8 @@
         <activity android:name=".ui.activity.MainActivity">
 
         </activity>
+
+        <service android:name=".service.DownloadService" />
     </application>
 
 </manifest>

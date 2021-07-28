@@ -3,11 +3,9 @@ package aslan.aslanov.videocapture.ui.fragment.video.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import aslan.aslanov.videocapture.databinding.LayoutItemTakeVideoBinding
 import aslan.aslanov.videocapture.databinding.LayoutVideoItemBinding
 import aslan.aslanov.videocapture.model.video.VideoDiffUtil
 import aslan.aslanov.videocapture.model.video.VideoPojo
-import aslan.aslanov.videocapture.util.logApp
 
 class VideoAdapter(private val onComplete: (List<VideoPojo>) -> Unit) :
     ListAdapter<VideoPojo, VideoVideHolder>(VideoDiffUtil()) {

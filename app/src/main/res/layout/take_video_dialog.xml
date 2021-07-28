@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -12,6 +13,17 @@
         android:orientation="vertical"
         android:paddingHorizontal="@dimen/large_margin"
         android:weightSum="6">
+
+        <ImageButton
+            android:id="@+id/image_button_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginVertical="@dimen/normal_padding"
+            android:padding="5dp"
+            android:background="@android:color/transparent"
+            app:srcCompat="@drawable/ic_warn"
+            android:contentDescription="@string/close_alert_dialog" />
 
         <TextView
             android:layout_width="match_parent"

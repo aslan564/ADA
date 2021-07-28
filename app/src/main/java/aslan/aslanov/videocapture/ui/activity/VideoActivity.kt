@@ -14,15 +14,16 @@ import aslan.aslanov.videocapture.util.logApp
 import aslan.aslanov.videocapture.util.makeToast
 
 class VideoActivity : AppCompatActivity() {
+
     private val binding by lazy { ActivityViedeoBinding.inflate(layoutInflater) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         checkUserIsLogin()
-
         bindUI()
-
     }
+
 
     private fun bindUI(): Unit = with(binding) {
         val navHostFragment =
@@ -38,6 +39,7 @@ class VideoActivity : AppCompatActivity() {
             SharedPreferenceManager.token?.let { logApp(it) }
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 
