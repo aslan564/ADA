@@ -65,4 +65,5 @@
     <string name="video_valid">Video Geçerli</string>
     <string name="record_again">Tekrar Cekin</string>
     <string name="close_alert_dialog">close Alert Dialog</string>
+    <string name="confirm">Confirm</string>
 </resources>
