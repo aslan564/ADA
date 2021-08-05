@@ -2,6 +2,7 @@ package aslan.aslanov.videocapture.ui.fragment.video
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -43,7 +44,6 @@ class VideosFragment : Fragment() {
     private val binding by lazy { FragmentVideosBinding.inflate(layoutInflater) }
     private val viewModel by viewModels<VideoViewModel>()
     private lateinit var requestPermission: ActivityResultLauncher<Array<String>>
-    private lateinit var requestActivityForResult: ActivityResultLauncher<Intent>
     private val adapterVideo =
         VideoAdapter(onComplete = ::onCompleteLayout, isSize = this@VideosFragment::isSize)
 
@@ -229,28 +229,28 @@ class VideosFragment : Fragment() {
                     }
                 }
             }
-        requestActivityForResult =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-                if (result.resultCode == AppCompatActivity.RESULT_OK) {
-                    val intent = result.data
-                    intent?.let { intentData ->
-                        logApp("requestActivityForResult :${intentData.data.toString()}")
-                        try {
-                            intentData.data?.let {
-                                val intentService = Intent(requireContext(), DownloadService::class.java)
-                                requireActivity().startService(intentService)
-                            }
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                            logApp(e.stackTraceToString())
-                        }
-                    } ?: logApp("result data null qayidir ")
-                } else {
-                    logApp("resultCode not okay ")
-                }
-            }
     }
 
+   private val requestActivityForResult =
+    registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val intent = result.data
+            result.data?.let { intentData ->
+                logApp("requestActivityForResult ***************:${intentData.data.toString()}")
+                try {
+                    intentData.data?.let {
+                        val intentService = Intent(requireContext(), DownloadService::class.java)
+                        requireActivity().startService(intentService)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    logApp(e.stackTraceToString())
+                }
+            } ?: logApp("result data null qayidir ")
+        } else {
+            logApp("resultCode not okay ")
+        }
+    }
     private fun captureVideo(onCompletionListener: (File) -> Unit) {
         try {
             getVideoFile(requireContext()) { videoFile ->
