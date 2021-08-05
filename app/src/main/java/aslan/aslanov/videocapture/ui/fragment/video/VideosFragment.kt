@@ -179,7 +179,7 @@ class VideosFragment : Fragment() {
                                             "Permission needed for camera ",
                                             Snackbar.LENGTH_INDEFINITE
                                         )
-                                            .setAction("Give Permission") { //makeToast("per", requireContext())
+                                            .setAction("Give Permission") {
                                                 val cameraPermission =
                                                     arrayOf(Manifest.permission.CAMERA)
                                                 requestPermission.launch(cameraPermission)
@@ -239,7 +239,7 @@ class VideosFragment : Fragment() {
                     intent?.let { intentData ->
                         logApp("requestActivityForResult :${intentData.data.toString()}")
                         try {
-                            intentData.data?.let { dataUri ->
+                            intentData.data?.let {
                                 val intentService = Intent(requireContext(), DownloadService::class.java)
                                 requireActivity().startService(intentService)
                             }

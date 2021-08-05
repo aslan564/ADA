@@ -99,7 +99,7 @@ class VideoViewModel : ViewModel() {
         }
     }
 
-    fun uploadVideoFromGallery(onComplete: (Boolean?) -> Unit) = viewModelScope.launch {
+    fun uploadVideoFromGallery(onComplete: (Boolean?,String) -> Unit) = viewModelScope.launch {
         SharedPreferenceManager.videoFile?.let { videoPath ->
             getVideoFile(videoPath) { capturedVideo ->
                 logApp("capturedVideo $capturedVideo")
@@ -107,15 +107,17 @@ class VideoViewModel : ViewModel() {
                     addVideoToDatabase(part) {response->
                         when (response) {
                             Status.SUCCESS -> {
-                                    onComplete(true)
-                                _errorMessage.value="video  uploaded completed"
+                                    onComplete(true,capturedVideo.fileName)
+                                getVideos{
+                                    _errorMessage.value=it
+                                }
                             }
                             Status.LOADING -> {
-                                onComplete(null)
+                                onComplete(null,capturedVideo.fileName)
                             }
                             Status.ERROR -> {
                                 _errorMessage.value="video not uploaded"
-                                onComplete(false)
+                                onComplete(false,capturedVideo.fileName)
                             }
                         }
                     }

@@ -3,19 +3,22 @@ package aslan.aslanov.videocapture.service
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import aslan.aslanov.videocapture.R
+import aslan.aslanov.videocapture.local.manager.SharedPreferenceManager
 import aslan.aslanov.videocapture.ui.activity.VideoActivity
 import aslan.aslanov.videocapture.util.NotificationConstant.NOTIFICATION_CHANNEL_ID
 import aslan.aslanov.videocapture.util.NotificationConstant.UPLOAD_NOTIFICATION_ID
 import aslan.aslanov.videocapture.util.NotificationConstant.VIDEO_REQUEST_BODY
 import aslan.aslanov.videocapture.util.logApp
 import aslan.aslanov.videocapture.viewModel.video.VideoViewModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class DownloadService : Service() {
     private val viewModel = VideoViewModel()
@@ -33,11 +36,10 @@ class DownloadService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d(TAG, "onStartCommand: 3  onStartCommand: bura girdi")
-        showNotification()
         return START_STICKY
     }
 
-    private fun showNotification() {
+    private fun showNotification(contextMsg: String,titleMessage: String) {
 
         val name = Intent().getStringExtra(VIDEO_REQUEST_BODY)
         Log.d(TAG, "showNotification: ${name.toString()}")
@@ -52,8 +54,8 @@ class DownloadService : Service() {
         val notification = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.ada_login)
             .setLargeIcon(adaImage)
-            .setContentTitle("Upload Video")
-            .setContentText("textContent")
+            .setContentTitle(titleMessage)
+            .setContentText(contextMsg)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
             .setStyle(bigPicStyle)
@@ -67,11 +69,24 @@ class DownloadService : Service() {
     }
 
     private fun uploadVideo() {
-        viewModel.uploadVideoFromGallery {
-            when (it) {
+        viewModel.uploadVideoFromGallery {status,message->
+            when (status) {
                 true -> {
-                    Log.d(TAG, "uploadVideo: $it")
+                    GlobalScope.launch {
+                        Log.d(TAG, "uploadVideo: $message")
+                        SharedPreferenceManager.videoFile=null
+                        showNotification("video uploading completed!!!",message)
+                        delay(1000)
+                        this@DownloadService.stopSelf()
+                    }
+                }
+                false -> {
+                    Log.d(TAG, "uploadVideo: $message")
                     this.stopSelf()
+                }
+                null -> {
+                    Log.d(TAG, "uploadVideo: $message")
+                    showNotification("video uploading...",message)
                 }
             }
         }
