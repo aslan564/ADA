@@ -13,8 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
-        tools:context=".ui.fragment.childInfo.ChildInfoFragment"
-        tools:ignore="ScrollViewCount,UselessParent">
+        tools:context=".ui.fragment.childInfo.ChildInfoFragment">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -62,12 +61,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_8dp"
                 android:autofillHints=""
-                android:textSize="18sp"
                 android:background="@drawable/bg_edit_text"
                 android:hint="@string/waiting_birthday"
                 android:inputType="date"
-                tools:ignore="LabelFor,RtlHardcoded,TextViewEdits"
-                app:drawableRightCompat="@drawable/ic_baseline_date_range_24" />
+                android:textSize="18sp"
+                app:drawableRightCompat="@drawable/ic_baseline_date_range_24"
+                tools:ignore="LabelFor,RtlHardcoded,TextViewEdits" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -84,8 +83,8 @@
                 android:autofillHints=""
                 android:background="@drawable/bg_edit_text"
                 android:hint="@string/real_birthday"
-                tools:ignore="LabelFor,RtlHardcoded"
-                app:drawableRightCompat="@drawable/ic_baseline_date_range_24" />
+                app:drawableRightCompat="@drawable/ic_baseline_date_range_24"
+                tools:ignore="LabelFor,RtlHardcoded" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -183,7 +182,7 @@
                 android:layout_marginTop="@dimen/normal_padding"
                 android:text="@string/fee_reminder" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_next"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

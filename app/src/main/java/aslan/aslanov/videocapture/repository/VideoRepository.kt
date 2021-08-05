@@ -4,14 +4,14 @@ import aslan.aslanov.videocapture.model.user.child.Reportable
 import aslan.aslanov.videocapture.model.video.VideoPojo
 import aslan.aslanov.videocapture.model.video.VideoResponse
 import aslan.aslanov.videocapture.network.NetworkResult
-import aslan.aslanov.videocapture.network.RetrofitClient
+import aslan.aslanov.videocapture.network.UserService
 import aslan.aslanov.videocapture.util.addBearer
 import aslan.aslanov.videocapture.util.catchServerError
 import aslan.aslanov.videocapture.util.logApp
 import okhttp3.MultipartBody
 
 class VideoRepository {
-    private val service = RetrofitClient.videoService
+    private val service = UserService.videoService
 
     suspend fun addVideo(
         token: String,
@@ -33,7 +33,8 @@ class VideoRepository {
             }
 
         } catch (e: Exception) {
-            onComplete(NetworkResult.error("Please check your internet connection "))
+            e.printStackTrace()
+            onComplete(NetworkResult.error("Please check your internet connection ${e.localizedMessage}"))
         }
     }
 

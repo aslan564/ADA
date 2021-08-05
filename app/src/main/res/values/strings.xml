@@ -9,13 +9,14 @@
     <string name="waiting_birthday">Beklenen Dogum Tarihi</string>
     <string name="real_birthday">Gercek Dogum Tarihi</string>
     <string name="birthday_weight">Dogum Kilosu</string>
+    <string name="birthday_weight_format"> %s Gr </string>
     <string name="gender">Cinsiyyet</string>
     <string name="weight_example">(gram cinsinden girin or:3250)</string>
     <string name="man">Erkek</string>
     <string name="woman">Kiz</string>
     <string name="referring_doctor_name">Yonlendiren Doktor Ismi(opsiyonel)</string>
     <string name="email_address">Email Adresi</string>
-    <string name="privacy_policy">Gizllilik Politikasi ve Kullanimi Kosullarini\n
+    <string name="privacy_policy" >Gizllilik Politikasi ve Kullanimi Kosullarini\n
     okudum, onayliyorum</string>
     <string name="fee_reminder">CP Uygulamasi ucretli bir uygulamadir\n
     sizden kayit sirasinda ucret talep edilmez,\n
@@ -28,7 +29,7 @@
     <string name="information_correct">Bilgilerim Dogru</string>
     <string name="turn_back">Geri Don</string>
     <string name="required">This field required</string>
-    <string name="email_not_valid">Email not valid</string>
+    <string name="email_not_valid">Raporu gondermek icin gerekli</string>
     <string name="welcome_ada">ADA uygulamasina hos geldiniz.</string>
     <string name="usage_ada">ADA\'yi kullana bilmek icin telefon\n
     numaraniz ile giris yapmaniz\n
@@ -42,7 +43,7 @@
     <string name="send_pass_again">Tekrar Kod Gonder</string>
     <string name="confirimation_code">Dogrulama Kodu</string>
     <string name="time_example">00:10</string>
-    <string name="example_code">0090</string>
+    <string name="example_code">+90</string>
     <string name="videos">Videolar</string>
     <string name="profile">Profil</string>
     <string name="get_the_news">Girdiginiz bilgiler daha sonra\n guncellenemez. Lutfen bilgilerin\n dogrulugundan emin olarak devam edin</string>
@@ -66,4 +67,5 @@
     <string name="record_again">Tekrar Cekin</string>
     <string name="close_alert_dialog">close Alert Dialog</string>
     <string name="confirm">Confirm</string>
+    <string name="take_new_video">Yeni Video Cek</string>
 </resources>

@@ -11,6 +11,7 @@ object SharedPreferenceManager {
 
     private var IS_LOGIN = Pair("isLogin", false)
     private var TOKEN = Pair("token", null)
+    private var VIDEO_FILE = Pair("video", null)
 
     fun instance(context: Context) {
         sharedPreferences = context.getSharedPreferences(sharedPreferenceManagerKey, MODE_PRIVATE)
@@ -33,5 +34,11 @@ object SharedPreferenceManager {
         set(value) = sharedPreferences.edit {
             it.putString(TOKEN.first, value)
         }
+
+    var videoFile:String?
+    get() = sharedPreferences.getString(VIDEO_FILE.first, VIDEO_FILE.second)
+    set(value) = sharedPreferences.edit{
+        it.putString(VIDEO_FILE.first,value)
+    }
 
 }

@@ -33,16 +33,23 @@ data class VideoPojo(
 
 }
 
-class VideoDiffUtil() :
-    DiffUtil.ItemCallback<VideoPojo>() {
-    override fun areItemsTheSame(oldItem: VideoPojo, newItem: VideoPojo): Boolean {
-        return oldItem.id == newItem.id
+class VideoDiffUtil(private val oldList:List<VideoPojo>,private val newList: List<VideoPojo>) :
+    DiffUtil.Callback() {
+    override fun getOldListSize(): Int {
+        return oldList.size
     }
 
-    override fun areContentsTheSame(oldItem: VideoPojo, newItem: VideoPojo): Boolean {
-        val result = oldItem.compareTo(newItem)
+    override fun getNewListSize(): Int {
+        return newList.size
+    }
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldList[oldItemPosition].id == newList[newItemPosition].id
+    }
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        val result = oldList[oldItemPosition].compareTo(newList[newItemPosition])
         return result == 0
     }
-
 
 }

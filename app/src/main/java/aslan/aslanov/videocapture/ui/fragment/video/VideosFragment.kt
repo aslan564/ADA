@@ -1,13 +1,12 @@
 package aslan.aslanov.videocapture.ui.fragment.video
 
 import android.Manifest
-import android.content.ContentResolver
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.provider.OpenableColumns
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,48 +14,58 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageButton
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.database.getBlobOrNull
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import aslan.aslanov.videocapture.R
 import aslan.aslanov.videocapture.databinding.FragmentVideosBinding
+import aslan.aslanov.videocapture.local.manager.SharedPreferenceManager.videoFile
 import aslan.aslanov.videocapture.model.registerModel.VideoRequestBody
 import aslan.aslanov.videocapture.model.user.child.Reportable
+import aslan.aslanov.videocapture.model.video.VideoPojo
 import aslan.aslanov.videocapture.service.DownloadService
 import aslan.aslanov.videocapture.ui.fragment.video.adapter.VideoAdapter
-import aslan.aslanov.videocapture.util.NotificationConstant.VIDEO_REQUEST_BODY
-import aslan.aslanov.videocapture.util.createAlertDialogAny
-import aslan.aslanov.videocapture.util.logApp
-import aslan.aslanov.videocapture.util.makeSnackBar
-import aslan.aslanov.videocapture.util.makeToast
+import aslan.aslanov.videocapture.util.*
+import aslan.aslanov.videocapture.util.AppConstants.CAMERA_RECORD_TIME_LIMIT
 import aslan.aslanov.videocapture.viewModel.video.VideoViewModel
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
-import java.net.URI
 import java.util.*
 
 
 class VideosFragment : Fragment() {
     private val binding by lazy { FragmentVideosBinding.inflate(layoutInflater) }
-    private val adapterVideo by lazy {
-        VideoAdapter { videoPojo ->
-            if (videoPojo.isNotEmpty()) {
-                // binding.group.visibility = View.GONE
-            } else {
-                // binding.group.visibility = View.VISIBLE
-            }
-        }
-    }
     private val viewModel by viewModels<VideoViewModel>()
     private lateinit var requestPermission: ActivityResultLauncher<Array<String>>
     private lateinit var requestActivityForResult: ActivityResultLauncher<Intent>
+    private val adapterVideo =
+        VideoAdapter(onComplete = ::onCompleteLayout, isSize = this@VideosFragment::isSize)
+
+    private fun isSize(size: Int): Unit = with(binding) {
+        if (size <= 1) {
+            recyclerViewVideo.visibility = View.GONE
+        } else {
+            recyclerViewVideo.visibility = View.VISIBLE
+        }
+    }
+
+    private fun onCompleteLayout(videoPojo: VideoPojo?, status: Boolean) {
+        if (videoPojo == null && status) {
+            isCameraReady()
+        } else {
+            makeToast(videoPojo.toString(), requireContext())
+
+        }
+    }
 
 
     override fun onCreateView(
@@ -75,7 +84,7 @@ class VideosFragment : Fragment() {
 
     private fun bindUI(): Unit = with(binding) {
         lifecycleOwner = this@VideosFragment
-        binding.recyclerViewVideo.adapter = adapterVideo
+
         mainContainer.setOnRefreshListener {
             viewModel.getVideos {
                 makeToast(it, requireContext())
@@ -106,32 +115,31 @@ class VideosFragment : Fragment() {
 
         videoList.observe(viewLifecycleOwner, { video ->
             if (video != null) {
-                logApp("$video")
+                // logApp("----------$video")
                 if (video.isEmpty()) {
                     binding.groupTakeVideo.visibility = View.VISIBLE
                 } else {
-                    //makeToast(it.size.toString(), requireContext())
                     binding.groupTakeVideo.visibility = View.GONE
                 }
-                adapterVideo.submitList(video)
+                setListToAdapter(video)
             } else {
                 binding.groupTakeVideo.visibility = View.VISIBLE
             }
         })
     }
 
-    private fun recordVideo(data: VideoRequestBody) {
-        val intent=Intent(requireContext(),DownloadService::class.java)
-        intent.putExtra(VIDEO_REQUEST_BODY,data.fileName)
-        requireActivity().startService(intent)
-        // val reqFile = data.videoFile.toRequestBody("video/mp4".toMediaTypeOrNull());
-        val multipartBody = MultipartBody.Part.createFormData("file", data.fileName, data.videoFile)
-        viewModel.addVideoToDatabase(multipartBody) {
-            makeToast(it, requireContext())
-          /*  val intentService=Intent(requireContext(),DownloadService::class.java)
-            requireActivity().stopService(intentService)*/
+    @SuppressLint("NotifyDataSetChanged")
+    private fun setListToAdapter(video: List<VideoPojo>) {
+        val addFirstVideo = VideoPojo(null, null, null, null, null, null, null)
+        lifecycleScope.launch {
+            adapterVideo.refreshList(video)
+            adapterVideo.addFirstRow(addFirstVideo)
+            adapterVideo.notifyDataSetChanged()
+            binding.recyclerViewVideo.adapter = adapterVideo
         }
     }
+
+
 
     private fun isCameraReady() {
         viewModel.videoCanCreate { videoCanCreate: Reportable?, s: String? ->
@@ -141,7 +149,7 @@ class VideosFragment : Fragment() {
                         requireContext(),
                         R.layout.take_video_dialog
                     ) { view, alertDialog ->
-                        view.findViewById<Button>(R.id.button_iam_ready).setOnClickListener {
+                        view.findViewById<Button>(R.id.button_iam_ready).setOnClickListener { it ->
                             val blackSheet = view.findViewById<CheckBox>(R.id.checkbox_black_sheet)
                             val clothes = view.findViewById<CheckBox>(R.id.checkbox_clothes)
                             val fixCamera = view.findViewById<CheckBox>(R.id.checkbox_fix_camera)
@@ -184,7 +192,10 @@ class VideosFragment : Fragment() {
                                     }
                                 } else {
                                     alertDialog.dismiss()
-                                    captureVideo()
+                                    captureVideo() { file ->
+                                        videoFile = file.toURI().path
+                                        Log.d(TAG, "isCameraReady: $file")
+                                    }
                                 }
                             }
                         }
@@ -215,69 +226,60 @@ class VideosFragment : Fragment() {
                 if (permission.containsValue(false)) {
                     makeToast("Permission denied!!", requireContext())
                 } else {
-                    captureVideo()
+                    captureVideo() { file ->
+                        videoFile = file.toURI().path
+                        Log.d(TAG, "registerLauncher: $file")
+                    }
                 }
             }
         requestActivityForResult =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
-                activityResult?.let {
-                    if (it.resultCode == AppCompatActivity.RESULT_OK && it.data != null) {
-                        // logApp(it.data!!.data.toString())
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                if (result.resultCode == AppCompatActivity.RESULT_OK) {
+                    val intent = result.data
+                    intent?.let { intentData ->
+                        logApp("requestActivityForResult :${intentData.data.toString()}")
                         try {
-                            it.data?.let { videoData ->
-                                val capturedVideo =
-                                    requireContext().contentResolver.getFileName(videoData.data!!)
-                                capturedVideo?.let {
-                                    logApp("************** :${capturedVideo.fileName}  :${capturedVideo.videoFile}")
-                                    recordVideo(capturedVideo)
-                                }
+                            intentData.data?.let { dataUri ->
+                                val intentService = Intent(requireContext(), DownloadService::class.java)
+                                requireActivity().startService(intentService)
                             }
-
                         } catch (e: Exception) {
                             e.printStackTrace()
                             logApp(e.stackTraceToString())
                         }
-                    }
-                }
-            }
-        val videoPickGallery =
-            registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-                uri?.let { uriItem ->
-                    Log.d(TAG, " 9: $uriItem")
-                    try {
-                        val file = File(URI.create(uriItem.path))
-                        logApp(file.toString())
-                        // sendVideoDatabase(uriItem.toString())
-                    } catch (e: Exception) {
-                        println(e.message)
-                        Log.d(TAG, "error: ${e.message}")
-                    }
+                    } ?: logApp("result data null qayidir ")
+                } else {
+                    logApp("resultCode not okay ")
                 }
             }
     }
 
-    private fun captureVideo() {
-        val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
-        intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 120)
-        requestActivityForResult.launch(intent)
-    }
+    private fun captureVideo(onCompletionListener: (File) -> Unit) {
+        try {
+            getVideoFile(requireContext()) { videoFile ->
+                Log.d(TAG, "video file is ::: $videoFile")
+                val fileProvider = FileProvider.getUriForFile(
+                    requireContext(),
+                    "aslan.aslanov.videocapture.provider",
+                    videoFile
+                )
+                logApp("fileProvider -- -$fileProvider")
+                val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE).apply {
+                    putExtra(MediaStore.EXTRA_DURATION_LIMIT, CAMERA_RECORD_TIME_LIMIT)
+                    putExtra(MediaStore.EXTRA_OUTPUT, fileProvider)
+                    putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1)
 
-
-    private fun ContentResolver.getFileName(fileUri: Uri): VideoRequestBody? {
-        var videoFile: VideoRequestBody? = null
-        val returnCursor = this.query(fileUri, null, null, null, null)
-        if (returnCursor != null) {
-            val nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-            //val sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE)
-            returnCursor.moveToFirst()
-            val name = returnCursor.getString(nameIndex)
-            val fileVideo = returnCursor.getString(nameIndex).toRequestBody()
-            returnCursor.getBlobOrNull(nameIndex)?.let {
-                videoFile = VideoRequestBody(name, fileVideo)
+                    flags = (Intent.FLAG_GRANT_READ_URI_PERMISSION
+                            or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                }
+                requestActivityForResult.launch(intent)
+                onCompletionListener(videoFile)
             }
-            returnCursor.close()
+
+        } catch (ex: Exception) {
+            ex.printStackTrace()
         }
-        return videoFile
     }
 
 
@@ -292,10 +294,6 @@ class VideosFragment : Fragment() {
         val duration: Int,
         val size: Int
     )
-
-    val videoList = mutableListOf<Video>()
-
-
 }
 
 

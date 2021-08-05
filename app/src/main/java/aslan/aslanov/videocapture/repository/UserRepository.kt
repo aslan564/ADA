@@ -1,19 +1,17 @@
 package aslan.aslanov.videocapture.repository
 
 import aslan.aslanov.videocapture.model.registerModel.UserRequestBody
-import aslan.aslanov.videocapture.model.user.UserCheck
 import aslan.aslanov.videocapture.model.user.child.ChildResponse
 import aslan.aslanov.videocapture.model.video.ReportRequest
 import aslan.aslanov.videocapture.network.NetworkResult
-import aslan.aslanov.videocapture.network.RetrofitClient
-import aslan.aslanov.videocapture.network.Status
+import aslan.aslanov.videocapture.network.UserService
 import aslan.aslanov.videocapture.util.addBearer
 import aslan.aslanov.videocapture.util.catchServerError
 import aslan.aslanov.videocapture.util.logApp
 import java.lang.Exception
 
 class UserRepository {
-    private val serviceAccount = RetrofitClient.userService
+    private val serviceAccount = UserService.userService
 
     suspend fun createChildUser(
         token: String,

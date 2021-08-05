@@ -25,4 +25,11 @@ interface VideoService {
     suspend fun videoCanCreate(
         @Header("Authorization")authorization: String
     ):Response<Reportable>
+    @Multipart
+    @POST("video")
+    suspend fun videoVideoIdPost(
+        @Header("Authorization") auth: String,
+        @Path("videoId") videoId: Int,
+        @Part file: MultipartBody.Part,
+    ): Response<VideoPojo>
 }

@@ -6,7 +6,7 @@
         <shape android:shape="rectangle">
             <stroke
                 android:width="@dimen/cartStroke"
-                android:color="@color/purple_700"
+                android:color="@color/text_second_color"
                 />
             <corners
                 android:radius="@dimen/buttonBorderRadius"

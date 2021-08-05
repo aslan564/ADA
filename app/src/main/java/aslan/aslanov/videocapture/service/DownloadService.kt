@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.IBinder
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import aslan.aslanov.videocapture.R
 import aslan.aslanov.videocapture.ui.activity.VideoActivity
@@ -14,8 +15,10 @@ import aslan.aslanov.videocapture.util.NotificationConstant.NOTIFICATION_CHANNEL
 import aslan.aslanov.videocapture.util.NotificationConstant.UPLOAD_NOTIFICATION_ID
 import aslan.aslanov.videocapture.util.NotificationConstant.VIDEO_REQUEST_BODY
 import aslan.aslanov.videocapture.util.logApp
+import aslan.aslanov.videocapture.viewModel.video.VideoViewModel
 
 class DownloadService : Service() {
+    private val viewModel = VideoViewModel()
     override fun onBind(p0: Intent?): IBinder? {
         logApp("1 onBind: bura girdi")
         return null
@@ -23,21 +26,21 @@ class DownloadService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        logApp("2 onCreate: bura girdi")
+        Log.d(TAG, "onStartCommand: 2 onCreate: bura girdi")
         uploadVideo()
         createNotificationChannel()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        logApp("3  onStartCommand: bura girdi")
+        Log.d(TAG, "onStartCommand: 3  onStartCommand: bura girdi")
         showNotification()
         return START_STICKY
     }
 
     private fun showNotification() {
 
-        val name=Intent().getStringExtra(VIDEO_REQUEST_BODY)
-        logApp("----------------- ${name.toString()}")
+        val name = Intent().getStringExtra(VIDEO_REQUEST_BODY)
+        Log.d(TAG, "showNotification: ${name.toString()}")
         val notificationIntent = Intent(this, VideoActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
         val adaImage = BitmapFactory.decodeResource(resources, R.drawable.ada_login)
@@ -57,14 +60,21 @@ class DownloadService : Service() {
             .setAutoCancel(true)
             .build()
 
-        notification.flags!=Notification.FLAG_AUTO_CANCEL
+        notification.flags != Notification.FLAG_AUTO_CANCEL
         startForeground(UPLOAD_NOTIFICATION_ID, notification)
 
 
     }
 
     private fun uploadVideo() {
-
+        viewModel.uploadVideoFromGallery {
+            when (it) {
+                true -> {
+                    Log.d(TAG, "uploadVideo: $it")
+                    this.stopSelf()
+                }
+            }
+        }
     }
 
     private fun createNotificationChannel() {
@@ -81,3 +91,5 @@ class DownloadService : Service() {
         }
     }
 }
+
+private const val TAG = "DownloadService"

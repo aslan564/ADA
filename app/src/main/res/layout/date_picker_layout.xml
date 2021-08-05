@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/normal_padding"
         android:layout_marginBottom="@dimen/normal_padding"
-        android:text="Confirm"
+        android:text="@string/confirm"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/calendarView"

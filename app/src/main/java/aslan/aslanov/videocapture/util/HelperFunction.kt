@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Build
+import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -13,13 +14,19 @@ import android.widget.Button
 import android.widget.DatePicker
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.net.toUri
 import androidx.fragment.app.FragmentActivity
 import aslan.aslanov.videocapture.R
+import aslan.aslanov.videocapture.model.registerModel.VideoRequestBody
 import aslan.aslanov.videocapture.network.NetworkResult
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.ResponseBody
 import org.json.JSONObject
+import java.io.File
 import java.lang.Exception
 import java.time.LocalDate
 import java.util.*
@@ -96,6 +103,14 @@ fun createAlertDialogAny(context: Context, viewId: Int, onComplete: (View, Alert
 
 }
 
+fun getVideoFile(context: Context, onComplete: (File) -> Unit) {
+    val fileName = "${UUID.randomUUID()}"
+    val storageDirectory = context.getExternalFilesDir(
+        Environment.DIRECTORY_MOVIES
+    )
+    onComplete(File.createTempFile(fileName, ".mp4", storageDirectory).absoluteFile)
+}
+
 fun createAlertDialog(context: Context, onComplete: (Boolean, AlertDialog) -> Unit) {
     val dialog = AlertDialog.Builder(context).create()
     val dialogView = LayoutInflater.from(context).inflate(R.layout.alert_dialog_view, null)
@@ -155,4 +170,21 @@ fun createDialogDatePicker(context: Context, onComplete: (LocalDate?, AlertDialo
     dialog.setView(dialogView)
     dialog.setCancelable(false)
     dialog.show()
+}
+
+fun recordVideo(data: VideoRequestBody, onComplete: (MultipartBody.Part) -> Unit) {
+    val multipartBody = MultipartBody.Part.createFormData("file", data.fileName, data.videoFile)
+    logApp("recordVideo : $data")
+    onComplete(multipartBody)
+}
+
+fun getVideoFile(path: String?, onComplete: (VideoRequestBody) -> Unit) {
+    path?.let {
+        val file = File(path)
+        val video = VideoRequestBody(
+            file.name,
+            file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+        )
+        onComplete(video)
+    }
 }

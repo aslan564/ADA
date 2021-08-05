@@ -14,6 +14,10 @@ object NotificationConstant{
     const val UPLOAD_NOTIFICATION_ID=123
     const val VIDEO_REQUEST_BODY="aslan.aslanov.videocapture.util"
 }
+object AppConstants{
+    const val COUNTRY_CODE="0090"
+    const val CAMERA_RECORD_TIME_LIMIT=180
+}
 enum class VideoStatus{
     PROCESSING,INAPPROPRIATE,APPROPRIATE
 }

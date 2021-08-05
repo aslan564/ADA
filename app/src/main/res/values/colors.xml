@@ -9,4 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="forte">#CDE8AEC2</color>
     <color name="orange">#FF5722</color>
+    <color name="default_text">#A88C93</color>
+    <color name="text_second_color">#83112D</color>
+    <color name="button_color">#CD910404</color>
 </resources>

@@ -12,20 +12,33 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.fragment.register.RegisterFragment">
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="32dp"
+            android:contentDescription="@string/app_logo_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.532"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ada_login" />
 
-
-        <Button
-            android:id="@+id/button_register"
+        <TextView
+            android:id="@+id/textView5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/bg_button"
-            android:text="@string/next"
-            android:textAllCaps="false"
-            android:textAppearance="@style/FooterStyle"
-            app:layout_constraintEnd_toEndOf="@+id/textView5"
-            app:layout_constraintStart_toStartOf="@+id/textView5"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text_phone_number" />
+            android:layout_marginHorizontal="@dimen/normal_padding"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="@dimen/padding_8dp"
+            android:text="@string/usage_ada"
+            android:textAppearance="@style/SecondTitle"
+            app:layout_constraintBottom_toTopOf="@+id/edit_text_phone_number"
+            app:layout_constraintEnd_toEndOf="@+id/textView4"
+            app:layout_constraintStart_toStartOf="@+id/textView4"
+            app:layout_constraintTop_toBottomOf="@+id/textView4"
+            app:layout_constraintVertical_bias="0.0" />
 
         <EditText
             android:id="@+id/edit_text_phone_number"
@@ -43,19 +56,9 @@
             app:layout_constraintStart_toStartOf="@+id/text_view_medical_director"
             app:layout_constraintTop_toBottomOf="@+id/textView6"
             app:layout_constraintVertical_bias="0"
-            tools:ignore="Autofill" />
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck"  />
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_marginTop="32dp"
-            android:contentDescription="@string/app_logo_image"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.532"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ada_login" />
+
 
         <TextView
             android:id="@+id/textView4"
@@ -74,21 +77,23 @@
             app:layout_constraintTop_toBottomOf="@+id/imageView"
             app:layout_constraintVertical_bias="0.0" />
 
-        <TextView
-            android:id="@+id/textView5"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_register"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/normal_padding"
-            android:layout_marginTop="5dp"
-            android:gravity="center_horizontal"
-            android:lineSpacingExtra="@dimen/padding_8dp"
-            android:text="@string/usage_ada"
-            android:textAppearance="@style/SecondTitle"
-            app:layout_constraintBottom_toTopOf="@+id/edit_text_phone_number"
-            app:layout_constraintEnd_toEndOf="@+id/textView4"
-            app:layout_constraintStart_toStartOf="@+id/textView4"
-            app:layout_constraintTop_toBottomOf="@+id/textView4"
-            app:layout_constraintVertical_bias="0.0" />
+            android:layout_marginTop="@dimen/normal_padding"
+            android:background="@drawable/bg_button"
+            android:text="@string/next"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="@color/button_color"
+            android:textAppearance="@style/FooterStyle"
+            app:layout_constraintEnd_toEndOf="@+id/textView5"
+            app:layout_constraintStart_toStartOf="@+id/textView5"
+            app:layout_constraintTop_toBottomOf="@+id/edit_text_phone_number" />
+
+
+
 
         <TextView
             android:id="@+id/textView6"
@@ -132,7 +137,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
             android:text="@string/secret_policy"
             android:textAppearance="@style/FooterStyle"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -144,7 +148,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
             android:text="@string/usage_roles"
             android:textAppearance="@style/FooterStyle"
             app:layout_constraintBaseline_toBaselineOf="@+id/textView9"
@@ -155,7 +158,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
             android:ems="10"
             android:gravity="center"
             android:background="@drawable/bg_edit_text"
@@ -167,7 +169,8 @@
             app:layout_constraintStart_toStartOf="@+id/button_register"
             app:layout_constraintTop_toTopOf="@+id/edit_text_phone_number"
             android:autofillHints=""
-            tools:ignore="LabelFor" />
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck"  />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

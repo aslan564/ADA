@@ -36,7 +36,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/videoRecyclerViewWeek" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/video_recycler_view_status_icon"
             android:layout_width="@dimen/recyclerViewStatusIconSize"
             android:layout_height="@dimen/recyclerViewStatusIconSize"

@@ -7,6 +7,8 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.Group
 import androidx.databinding.BindingAdapter
 import aslan.aslanov.videocapture.R
+import aslan.aslanov.videocapture.model.user.child.ChildResponse
+import aslan.aslanov.videocapture.model.user.child.GENDER
 import aslan.aslanov.videocapture.model.video.VideoPojo
 
 @SuppressLint("SetTextI18n")
@@ -37,9 +39,27 @@ fun TextView.addWeekToText(week: String) {
 fun Group.addStatusChecking(size: Int?) {
     size?.let {
         if (size > 0) {
-            this.visibility=View.GONE
-        }else{
-            this.visibility=View.VISIBLE
+            this.visibility = View.GONE
+        } else {
+            this.visibility = View.VISIBLE
         }
+    }
+}
+
+@BindingAdapter("app:genderStatus")
+fun TextView.adGenderStatus(response: ChildResponse?) {
+    response?.let {
+        if (response.child.sexuality == GENDER.FEMALE.name) {
+            this.text = this.context.getString(R.string.woman)
+        } else {
+            this.text = this.context.getString(R.string.man)
+        }
+    }
+}
+
+@BindingAdapter("app:birthdayWeight")
+fun TextView.birthdayWeight(response: ChildResponse?) {
+    response?.let {
+        this.text = String.format(this.context.getString(R.string.birthday_weight_format),response.child.grams)
     }
 }

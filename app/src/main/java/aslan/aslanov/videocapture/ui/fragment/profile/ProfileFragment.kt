@@ -37,9 +37,16 @@ class ProfileFragment : Fragment() {
     private fun bindUI(): Unit = with(binding) {
         lifecycleOwner = this@ProfileFragment
         viewModelChildInfo = this@ProfileFragment.viewModel
+
         buttonReportable.setOnClickListener {
             viewModel.reportRequest { report, message ->
-                textViewReportable.text = message
+                if (report == null) {
+                    textViewReportable.visibility=View.VISIBLE
+                    textViewReportable.text = message
+                    buttonReportable.isEnabled = false
+                } else {
+                    textViewReportable.text = "report.childStatus"
+                }
             }
         }
         buttonContactOur.setOnClickListener {

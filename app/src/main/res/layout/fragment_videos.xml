@@ -27,12 +27,12 @@
                 android:id="@+id/recycler_view_video"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginVertical="@dimen/small_padding"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toTopOf="@+id/image_view_sentimental"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_goneMarginBottom="@dimen/normal_padding"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView8"
                 tools:listitem="@layout/layout_video_item" />
 
             <ImageView
@@ -42,23 +42,24 @@
                 android:layout_margin="@dimen/normal_padding"
                 android:contentDescription="@string/sentiment_icon"
                 android:src="@drawable/ic_outline_sentiment_dissatisfied_24"
-                app:layout_constraintBottom_toTopOf="@+id/text_view_info_videos"
-                app:layout_constraintEnd_toEndOf="@+id/recycler_view_video"
-                app:layout_constraintStart_toStartOf="@+id/recycler_view_video" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/text_view_info_videos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/normal_padding"
                 android:gravity="center"
                 android:text="@string/videos_info"
-                android:layout_margin="@dimen/normal_padding"
                 android:textAppearance="@style/SecondTitle"
-                app:layout_constraintBottom_toTopOf="@+id/button_take_video"
                 app:layout_constraintEnd_toEndOf="@+id/recycler_view_video"
-                app:layout_constraintStart_toStartOf="@+id/recycler_view_video" />
+                app:layout_constraintStart_toStartOf="@+id/recycler_view_video"
+                app:layout_constraintTop_toBottomOf="@+id/image_view_sentimental" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_take_video"
                 style="@style/ButtonAppearance"
                 android:layout_width="match_parent"
@@ -67,20 +68,30 @@
                 android:background="@drawable/round_button_bg"
                 android:text="@string/take_video"
                 android:textAllCaps="false"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textColor="@color/button_color"
                 app:layout_constraintEnd_toEndOf="@+id/recycler_view_video"
-                app:layout_constraintStart_toStartOf="@+id/recycler_view_video" />
+                app:layout_constraintStart_toStartOf="@+id/recycler_view_video"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_info_videos" />
 
             <androidx.constraintlayout.widget.Group
                 android:id="@+id/group_take_video"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
-                app:constraint_referenced_ids="text_view_info_videos,image_view_sentimental" />
+                app:constraint_referenced_ids="button_take_video,text_view_info_videos,image_view_sentimental" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/normal_padding"
+                android:text="@string/videos"
+                android:textAppearance="@style/TextTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>
 
-    <!--                android:visibility="@{videModelVideos.videoListSize==0?View.VISIBLE:View.GONE}"
-    -->

@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         tools:context=".ui.fragment.validation.ValidationFragment">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_validate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,6 +22,7 @@
             android:textAppearance="@style/SecondTitle"
             android:background="@drawable/round_button_bg"
             android:textAllCaps="false"
+            android:textColor="@color/button_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginHorizontal="@dimen/large_margin"
@@ -52,24 +53,26 @@
             app:layout_constraintStart_toStartOf="@+id/text_view_resend_code"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />
+
         <EditText
             android:id="@+id/edit_text_confirmation_code"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="number"
-            android:background="@drawable/bg_edit_text"
             android:layout_marginHorizontal="@dimen/large_margin"
-            app:layout_constraintBottom_toTopOf="@+id/text_view_timer"
             android:layout_marginBottom="16dp"
-            android:textAppearance="@style/SecondTitle"
+            android:background="@drawable/bg_edit_text"
+            android:ems="10"
+            android:gravity="center_horizontal"
+            android:inputType="number"
+            android:minHeight="48dp"
             android:textAlignment="center"
-            app:layout_constraintVertical_bias="1"
+            android:textAppearance="@style/SecondTitle"
+            app:layout_constraintBottom_toTopOf="@+id/text_view_timer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="Autofill,LabelFor"
-            android:gravity="center_horizontal" />
+            app:layout_constraintVertical_bias="1"
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
         <TextView
             android:id="@+id/textView12"

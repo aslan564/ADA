@@ -1,13 +1,11 @@
 package aslan.aslanov.videocapture.ui.fragment.camera
 
-import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.SurfaceHolder
 import android.view.View
 import android.view.ViewGroup
-import aslan.aslanov.videocapture.R
+import androidx.fragment.app.Fragment
 import aslan.aslanov.videocapture.databinding.FragmentCameraBinding
 import aslan.aslanov.videocapture.util.logApp
 
@@ -17,7 +15,7 @@ class CameraFragment : Fragment(), SurfaceHolder.Callback {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         return binding.root
     }

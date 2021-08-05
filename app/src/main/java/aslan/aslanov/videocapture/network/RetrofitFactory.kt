@@ -23,9 +23,6 @@ object RetrofitFactory {
             logging.level = HttpLoggingInterceptor.Level.HEADERS
             logging.level = HttpLoggingInterceptor.Level.BODY
             httpClient.addInterceptor(logging)
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(10, TimeUnit.SECONDS)
-                .writeTimeout(10, TimeUnit.SECONDS)
         }
         if (retrofit == null) {
             retrofit = Retrofit.Builder()

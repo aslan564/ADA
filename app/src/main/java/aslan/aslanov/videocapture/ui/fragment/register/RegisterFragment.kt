@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import aslan.aslanov.videocapture.databinding.FragmentRegisterBinding
 import aslan.aslanov.videocapture.model.registerModel.PhoneRequestBody
+import aslan.aslanov.videocapture.util.AppConstants.COUNTRY_CODE
 import aslan.aslanov.videocapture.util.logApp
 import aslan.aslanov.videocapture.util.makeSnackBar
 import aslan.aslanov.videocapture.util.makeToast
@@ -34,16 +35,14 @@ class RegisterFragment : Fragment() {
     private fun bindUI(): Unit = with(binding) {
         lifecycleOwner = this@RegisterFragment
         binding.buttonRegister.setOnClickListener {
-            val code = editTextCountryCode.text.trim()
             val number = editTextPhoneNumber.text.trim()
-            if (code.isEmpty() || number.isEmpty()) {
+            if (number.isEmpty()) {
                 logApp("country code cannot be  null ")
-                makeSnackBar("Country  code and number cannot be  null!! ", mainContainer)
+                makeSnackBar("Phone number cannot be  null!! ", mainContainer)
                 return@setOnClickListener
             } else {
-                logApp("$code")
                 logApp("$number")
-                val registerRequestBody = PhoneRequestBody("$code$number")
+                val registerRequestBody = PhoneRequestBody("$COUNTRY_CODE$number")
                 viewModel.registerUser(registerRequestBody){userResponse->
                     userResponse?.let {
                         val action =

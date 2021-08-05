@@ -1,6 +1,5 @@
 package aslan.aslanov.videocapture.repository
 
-import android.app.usage.NetworkStats
 import android.util.Log
 import aslan.aslanov.videocapture.model.registerModel.PhoneRequestBody
 import aslan.aslanov.videocapture.model.registerModel.CodeValidationBody
@@ -8,15 +7,13 @@ import aslan.aslanov.videocapture.model.user.UserCheck
 import aslan.aslanov.videocapture.model.user.UserResponse
 import aslan.aslanov.videocapture.model.validation.ValidationResponse
 import aslan.aslanov.videocapture.network.NetworkResult
-import aslan.aslanov.videocapture.network.RetrofitClient
-import aslan.aslanov.videocapture.network.Status
+import aslan.aslanov.videocapture.network.UserService
 import aslan.aslanov.videocapture.util.addBearer
 import aslan.aslanov.videocapture.util.catchServerError
 import java.lang.Exception
-import kotlin.math.log
 
 class AccountRepository {
-    private val serviceAccount = RetrofitClient.accountServiceTwo
+    private val serviceAccount = UserService.accountServiceTwo
 
 
     suspend fun registerUserWithPhone(
@@ -54,26 +51,7 @@ class AccountRepository {
             if (response.isSuccessful) {
                 val validateData = response.body()
                 validateData?.let {validateUser->
-                    userCheck(validateUser.token) { isUser ->
-                        when (isUser.status) {
-                            Status.ERROR -> {
-                                Log.d(TAG, "validateUserCode: ${isUser.message}")
-                                Log.d(TAG, "validateUserCode: ${validateUser.token}")
-                            }
-                            Status.LOADING -> {
-                                Log.d(TAG, "validateUserCode: ${isUser.message}")
-                            }
-                            Status.SUCCESS -> {
-                                isUser.data?.let {
-                                    if (isUser.data.profileCompleted) {
-                                        Log.d(TAG, "validateUserCode: ${isUser.data.profileCompleted}")
-                                    }else{
-                                        Log.d(TAG, "validateUserCode: ${isUser.data.profileCompleted}")
-                                    }
-                                }
-                            }
-                        }
-                    }
+
                     onComplete(NetworkResult.success(validateUser))
                 } ?: onComplete(NetworkResult.error("validate data null"))
             } else {
@@ -86,7 +64,7 @@ class AccountRepository {
         }
     }
 
-    private suspend fun userCheck(
+     suspend fun userCheck(
         token: String,
         onComplete: (NetworkResult<UserCheck>) -> Unit
     ) {

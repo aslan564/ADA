@@ -209,17 +209,11 @@ class ChildInfoFragment : Fragment() {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun createEditTextError(editText: EditText, message: String) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            editText.requestFocus()
-            editText.setError(
-                message,
-                requireContext().getDrawable(R.drawable.ic_baseline_info_24)
-            )
-        } else {
-            editText.error = getString(R.string.required)
-            editText.requestFocus()
-        }
-
+        editText.requestFocus()
+        editText.setError(
+            message,
+            requireContext().getDrawable(R.drawable.ic_baseline_info_24)
+        )
     }
 
 

@@ -9,7 +9,9 @@ import aslan.aslanov.videocapture.model.user.child.Reportable
 import aslan.aslanov.videocapture.model.video.VideoPojo
 import aslan.aslanov.videocapture.network.Status
 import aslan.aslanov.videocapture.repository.VideoRepository
+import aslan.aslanov.videocapture.util.getVideoFile
 import aslan.aslanov.videocapture.util.logApp
+import aslan.aslanov.videocapture.util.recordVideo
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 
@@ -19,36 +21,33 @@ class VideoViewModel : ViewModel() {
     val videoList: LiveData<List<VideoPojo>>
         get() = _videoList
 
-    private var _videoListSize = MutableLiveData<Int>()
-    val videoListSize: LiveData<Int>
-        get() = _videoListSize
-
     private var _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String>
         get() = _errorMessage
 
 
-    fun addVideoToDatabase(
+    private fun addVideoToDatabase(
         videoRequestBody: MultipartBody.Part,
-        onComplete:(String)->Unit
+        onComplete: (Status) -> Unit
     ) = viewModelScope.launch {
         SharedPreferenceManager.token?.let {
             repository.addVideo(it, videoRequestBody) { response ->
                 when (response.status) {
                     Status.SUCCESS -> {
                         logApp(response.data.toString())
-                        getVideos(){
-                            _errorMessage.value="list refreshed"
+                        getVideos() {
+                            _errorMessage.value = "list refreshed"
                         }
-                        onComplete("video yuklendi")
+                        onComplete(Status.SUCCESS)
                     }
                     Status.LOADING -> {
                         logApp(response.status.name)
-                        onComplete("video yuklemesi basladi")
+                        onComplete(Status.LOADING)
                     }
                     Status.ERROR -> {
-                        _errorMessage.value = response.message.toString()
-                        onComplete("video yuklemesi mumkun olmadi")
+                       _errorMessage.value = response.message.toString()
+                        logApp(response.message.toString())
+                        onComplete(Status.LOADING)
                     }
                 }
             }
@@ -76,23 +75,49 @@ class VideoViewModel : ViewModel() {
             }
         }
     }
-    fun videoCanCreate(onComplete: (Reportable?, String?) -> Unit)=viewModelScope.launch{
+
+    fun videoCanCreate(onComplete: (Reportable?, String?) -> Unit) = viewModelScope.launch {
         SharedPreferenceManager.token?.let {
-            repository.videoCanCreate(it){response->
+            repository.videoCanCreate(it) { response ->
                 when (response.status) {
                     Status.SUCCESS -> {
                         logApp(response.data.toString())
                         response.data?.let { video ->
-                            onComplete(video,"success")
+                            onComplete(video, "success")
                         }
                     }
                     Status.LOADING -> {
                         logApp(response.status.name)
-                        onComplete(null,"loading")
+                        onComplete(null, "loading")
                     }
                     Status.ERROR -> {
                         _errorMessage.value = response.message.toString()
-                        onComplete(null,"an error occurred")
+                        onComplete(null, "an error occurred")
+                    }
+                }
+            }
+        }
+    }
+
+    fun uploadVideoFromGallery(onComplete: (Boolean?) -> Unit) = viewModelScope.launch {
+        SharedPreferenceManager.videoFile?.let { videoPath ->
+            getVideoFile(videoPath) { capturedVideo ->
+                logApp("capturedVideo $capturedVideo")
+                recordVideo(capturedVideo) { part ->
+                    addVideoToDatabase(part) {response->
+                        when (response) {
+                            Status.SUCCESS -> {
+                                    onComplete(true)
+                                _errorMessage.value="video  uploaded completed"
+                            }
+                            Status.LOADING -> {
+                                onComplete(null)
+                            }
+                            Status.ERROR -> {
+                                _errorMessage.value="video not uploaded"
+                                onComplete(false)
+                            }
+                        }
                     }
                 }
             }
