@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -27,7 +26,6 @@ import androidx.lifecycle.lifecycleScope
 import aslan.aslanov.videocapture.R
 import aslan.aslanov.videocapture.databinding.FragmentVideosBinding
 import aslan.aslanov.videocapture.local.manager.SharedPreferenceManager.videoFile
-import aslan.aslanov.videocapture.model.registerModel.VideoRequestBody
 import aslan.aslanov.videocapture.model.user.child.Reportable
 import aslan.aslanov.videocapture.model.video.VideoPojo
 import aslan.aslanov.videocapture.service.DownloadService
@@ -37,7 +35,6 @@ import aslan.aslanov.videocapture.util.AppConstants.CAMERA_RECORD_TIME_LIMIT
 import aslan.aslanov.videocapture.viewModel.video.VideoViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
-import okhttp3.MultipartBody
 import java.io.File
 import java.util.*
 
@@ -142,14 +139,14 @@ class VideosFragment : Fragment() {
 
 
     private fun isCameraReady() {
-        viewModel.videoCanCreate { videoCanCreate: Reportable?, s: String? ->
+        viewModel.videoCanCreate { videoCanCreate: Reportable?, _: String? ->
             videoCanCreate?.let {
                 if (videoCanCreate.status) {
                     createAlertDialogAny(
                         requireContext(),
                         R.layout.take_video_dialog
                     ) { view, alertDialog ->
-                        view.findViewById<Button>(R.id.button_iam_ready).setOnClickListener { it ->
+                        view.findViewById<Button>(R.id.button_iam_ready).setOnClickListener {
                             val blackSheet = view.findViewById<CheckBox>(R.id.checkbox_black_sheet)
                             val clothes = view.findViewById<CheckBox>(R.id.checkbox_clothes)
                             val fixCamera = view.findViewById<CheckBox>(R.id.checkbox_fix_camera)
@@ -192,7 +189,7 @@ class VideosFragment : Fragment() {
                                     }
                                 } else {
                                     alertDialog.dismiss()
-                                    captureVideo() { file ->
+                                    captureVideo { file ->
                                         videoFile = file.toURI().path
                                         Log.d(TAG, "isCameraReady: $file")
                                     }
@@ -226,7 +223,7 @@ class VideosFragment : Fragment() {
                 if (permission.containsValue(false)) {
                     makeToast("Permission denied!!", requireContext())
                 } else {
-                    captureVideo() { file ->
+                    captureVideo { file ->
                         videoFile = file.toURI().path
                         Log.d(TAG, "registerLauncher: $file")
                     }
@@ -286,14 +283,6 @@ class VideosFragment : Fragment() {
     companion object {
         private const val TAG = "VideosFragment"
     }
-
-
-    data class Video(
-        val uri: Uri,
-        val name: String,
-        val duration: Int,
-        val size: Int
-    )
 }
 
 
