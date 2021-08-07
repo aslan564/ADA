@@ -4,16 +4,18 @@ import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import aslan.aslanov.videocapture.R
 import aslan.aslanov.videocapture.local.manager.SharedPreferenceManager
 import aslan.aslanov.videocapture.ui.activity.VideoActivity
+import aslan.aslanov.videocapture.util.NotificationConstant.MY_NOTIFICATION_SERVICE
 import aslan.aslanov.videocapture.util.NotificationConstant.NOTIFICATION_CHANNEL_ID
 import aslan.aslanov.videocapture.util.NotificationConstant.UPLOAD_NOTIFICATION_ID
-import aslan.aslanov.videocapture.util.NotificationConstant.VIDEO_REQUEST_BODY
 import aslan.aslanov.videocapture.util.logApp
 import aslan.aslanov.videocapture.viewModel.video.VideoViewModel
 import kotlinx.coroutines.GlobalScope
@@ -31,7 +33,6 @@ class DownloadService : Service() {
         super.onCreate()
         Log.d(TAG, "onStartCommand: 2 onCreate: bura girdi")
         uploadVideo()
-        createNotificationChannel()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -39,34 +40,6 @@ class DownloadService : Service() {
         return START_STICKY
     }
 
-    private fun showNotification(contextMsg: String,titleMessage: String) {
-
-        val name = Intent().getStringExtra(VIDEO_REQUEST_BODY)
-        Log.d(TAG, "showNotification: ${name.toString()}")
-        val notificationIntent = Intent(this, VideoActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
-        val adaImage = BitmapFactory.decodeResource(resources, R.drawable.ada_login)
-
-        val bigPicStyle = NotificationCompat.BigPictureStyle()
-            .bigPicture(adaImage)
-            .bigLargeIcon(null)
-
-        val notification = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ada_login)
-            .setLargeIcon(adaImage)
-            .setContentTitle(titleMessage)
-            .setContentText(contextMsg)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setContentIntent(pendingIntent)
-            .setStyle(bigPicStyle)
-            .setAutoCancel(true)
-            .build()
-
-        notification.flags != Notification.FLAG_AUTO_CANCEL
-        startForeground(UPLOAD_NOTIFICATION_ID, notification)
-
-
-    }
 
     private fun uploadVideo() {
         viewModel.uploadVideoFromGallery {status,message->
@@ -75,7 +48,7 @@ class DownloadService : Service() {
                     GlobalScope.launch {
                         Log.d(TAG, "uploadVideo: $message")
                         SharedPreferenceManager.videoFile=null
-                        showNotification("video uploading completed!!!",message)
+                        startForeground("video uploading completed!!!",message)
                         delay(1000)
                         this@DownloadService.stopSelf()
                     }
@@ -86,24 +59,39 @@ class DownloadService : Service() {
                 }
                 null -> {
                     Log.d(TAG, "uploadVideo: $message")
-                    showNotification("video uploading...",message)
+                    startForeground("video uploading...",message)
                 }
             }
         }
     }
-
-    private fun createNotificationChannel() {
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationChannel = NotificationChannel(
-                NOTIFICATION_CHANNEL_ID, "Upload Video",
-                NotificationManager.IMPORTANCE_DEFAULT
-            )
-            val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(notificationChannel)
-        }
+    private fun startForeground(description: String, title: String){
+        val channelId =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                createNotificationChannel("my_service", "My Background Service")
+            } else {
+                // If earlier version channel ID is not used
+                // https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html#NotificationCompat.Builder(android.content.Context)
+                MY_NOTIFICATION_SERVICE
+            }
+        val notificationBuilder = NotificationCompat.Builder(this, channelId )
+        val notification = notificationBuilder.setOngoing(true)
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setContentText(description)
+            .setContentTitle(title)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setCategory(Notification.CATEGORY_SERVICE)
+            .build()
+        startForeground(UPLOAD_NOTIFICATION_ID, notification)
+    }
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun createNotificationChannel(channelId: String, channelName: String):String {
+        val channel = NotificationChannel(channelId,
+            channelName, NotificationManager.IMPORTANCE_NONE)
+        channel.lightColor = Color.BLUE
+        channel.lockscreenVisibility = Notification.VISIBILITY_PRIVATE
+        val service = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        service.createNotificationChannel(channel)
+        return channelId
     }
 }
 

@@ -61,6 +61,7 @@ class ChildInfoFragment : Fragment() {
                             logApp(SharedPreferenceManager.token!!)
                             val intent = Intent(requireActivity(), VideoActivity::class.java)
                             requireActivity().startActivity(intent)
+                            requireActivity().finish()
                         }
                     }
                 }
@@ -124,7 +125,6 @@ class ChildInfoFragment : Fragment() {
                         childRealBirthday -> {
                             textViewRealBirthday.error = getString(R.string.required)
                             textViewRealBirthday.requestFocus()
-                            // createEditTextError(editTextRealBirthday, getString(R.string.required))
                             return@setOnClickListener
                         }
                         childWeight -> {

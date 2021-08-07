@@ -8,8 +8,7 @@ import aslan.aslanov.videocapture.model.video.VideoPojo
 
 private const val TAG = "VideoAdapter"
 
-class VideoAdapter(private val onComplete: (VideoPojo?, Boolean) -> Unit,
-                   private val isSize: (Int) -> Unit) :
+class VideoAdapter(private val onComplete: (VideoPojo?, Boolean) -> Unit) :
     RecyclerView.Adapter<VideoVideHolder>() {
     private val oldList = ArrayList<VideoPojo>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoVideHolder {
@@ -32,7 +31,6 @@ class VideoAdapter(private val onComplete: (VideoPojo?, Boolean) -> Unit,
     }
 
     override fun getItemCount(): Int {
-        isSize(oldList.size)
         return oldList.size
     }
 

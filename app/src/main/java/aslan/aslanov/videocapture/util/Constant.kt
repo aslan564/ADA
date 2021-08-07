@@ -12,6 +12,7 @@ object NetworkConstant {
 object NotificationConstant{
     const val NOTIFICATION_CHANNEL_ID="aslan.aslanov.videocapture"
     const val UPLOAD_NOTIFICATION_ID=123
+    const val MY_NOTIFICATION_SERVICE="myNotificationChannel"
     const val VIDEO_REQUEST_BODY="aslan.aslanov.videocapture.util"
 }
 object AppConstants{

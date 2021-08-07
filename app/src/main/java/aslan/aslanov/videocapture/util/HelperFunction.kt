@@ -88,15 +88,19 @@ fun makeToast(message: String, context: Context) {
 fun makeSnackBar(message: String, view: View) {
     Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
 }
-
+fun makeSnackBarWithAction(message: String, view: View,actionString: String,onComplete: (Boolean) -> Unit) {
+    Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE).setAction(actionString) {
+        onComplete(true)
+    }.show()
+}
 fun createAlertDialogAny(context: Context, viewId: Int, onComplete: (View, AlertDialog) -> Unit) {
     try {
         val dialog = AlertDialog.Builder(context).create()
         val dialogView = LayoutInflater.from(context).inflate(viewId, null)
         dialog.setView(dialogView)
         onComplete(dialogView, dialog)
-        dialog.show()
         dialog.setCancelable(false)
+        dialog.show()
     } catch (e: Exception) {
         e.printStackTrace()
     }
