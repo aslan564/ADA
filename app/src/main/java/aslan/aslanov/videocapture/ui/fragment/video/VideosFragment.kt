@@ -96,10 +96,10 @@ class VideosFragment : Fragment() {
         }
     }
 
-
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         observeData()
+
     }
 
     private fun observeData(): Unit = with(viewModel) {

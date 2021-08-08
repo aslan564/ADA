@@ -45,17 +45,16 @@ class DownloadService : Service() {
         viewModel.uploadVideoFromGallery {status,message->
             when (status) {
                 true -> {
-                    GlobalScope.launch {
-                        Log.d(TAG, "uploadVideo: $message")
+                    Log.d(TAG, "uploadVideo: $message")
+                    viewModel.getVideos {
                         SharedPreferenceManager.videoFile=null
                         startForeground("video uploading completed!!!",message)
-                        delay(1000)
                         this@DownloadService.stopSelf()
                     }
                 }
                 false -> {
                     Log.d(TAG, "uploadVideo: $message")
-                    this.stopSelf()
+                    this@DownloadService.stopSelf()
                 }
                 null -> {
                     Log.d(TAG, "uploadVideo: $message")

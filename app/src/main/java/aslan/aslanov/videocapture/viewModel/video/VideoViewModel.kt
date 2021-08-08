@@ -107,10 +107,8 @@ class VideoViewModel : ViewModel() {
                     addVideoToDatabase(part) {response->
                         when (response) {
                             Status.SUCCESS -> {
-                                    onComplete(true,capturedVideo.fileName)
-                                getVideos{
-                                    _errorMessage.value=it
-                                }
+
+                                onComplete(true,capturedVideo.fileName)
                             }
                             Status.LOADING -> {
                                 onComplete(null,capturedVideo.fileName)
